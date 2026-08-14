@@ -254,6 +254,11 @@ section{
     border-color: var(--text);
     color: var(--background);
 }
+#resume-btn,
+#contact-btn{
+    padding: 0.8rem 1.9rem;
+    font-size: 1.1rem;
+}
 .socials{
     display: flex;
     gap: 2rem;
