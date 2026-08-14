@@ -69,13 +69,16 @@ async function loadResume(){
             const page = await pdf.getPage(pageNumber);
             const baseViewport = page.getViewport({scale: 1});
             const availableWidth = pdfViewer.clientWidth - 24;
-            const scale = Math.max(0.1, availableWidth / baseViewport.width);
-            const viewport = page.getViewport({scale});
+            const displayScale = Math.max(0.1, availableWidth / baseViewport.width);
+            const renderScale = displayScale * Math.min(window.devicePixelRatio || 1, 2);
+            const viewport = page.getViewport({scale: renderScale});
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
 
             canvas.width = viewport.width;
             canvas.height = viewport.height;
+            canvas.style.width = `${baseViewport.width * displayScale}px`;
+            canvas.style.height = `${baseViewport.height * displayScale}px`;
 
             pdfViewer.appendChild(canvas);
 
