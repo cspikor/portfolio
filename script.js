@@ -43,27 +43,33 @@ function setTheme(isDark){
     }
 }
 
-function animateThemeChange(isDark){
-    const applyTheme = () => setTheme(isDark);
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let themeTransitionInProgress = false;
 
+async function animateThemeChange(isDark){
+    if(themeTransitionInProgress) return;
+    themeTransitionInProgress = true;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(!document.startViewTransition || prefersReducedMotion){
-        applyTheme();
+        setTheme(isDark);
+        themeTransitionInProgress = false;
         return;
     }
 
-    const { left, top, width, height } = themeBtn.getBoundingClientRect();
-    const x = left + width / 2;
-    const y = top + height / 2;
-    const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-    const transition = document.startViewTransition(applyTheme);
+    const transition = document.startViewTransition(() => setTheme(isDark));
 
-    transition.ready.then(() => {
-        document.documentElement.animate(
-            { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`] },
-            { duration: 650, easing: 'ease-in-out', pseudoElement: '::view-transition-new(root)' }
+    try{
+        await transition.ready;
+        const animation = document.documentElement.animate(
+            { clipPath: ['inset(0 0 100% 0)', 'inset(0 0 0 0)'] },
+            { duration: 650, easing: 'ease-in-out', fill: 'both', pseudoElement: '::view-transition-new(root)' }
         );
-    });
+        await animation.finished;
+    }catch(error){
+        // The theme is already updated if the browser skips the animation.
+    }finally{
+        themeTransitionInProgress = false;
+    }
 }
 
 const savedTheme = localStorage.getItem('portfolio-theme');
