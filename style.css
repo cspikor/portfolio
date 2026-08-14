@@ -26,10 +26,10 @@ body.dark-mode{
     box-sizing: border-box;
     font-family: 'Times New Roman', Times, serif;
     text-decoration: none;
-    scroll-behavior: smooth;
     list-style: none;
 }
 html{
+    scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
     overscroll-behavior-y: none;
     scrollbar-width: none;
@@ -37,11 +37,6 @@ html{
 html::-webkit-scrollbar{
     display: none;
 }
-html.is-section-scrolling{
-    scroll-behavior: auto;
-    scroll-snap-type: none;
-}
-
 body{
     background-color: var(--background);
     color: var(--text);
