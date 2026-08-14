@@ -213,8 +213,12 @@ section{
     cursor: pointer;
     transition: 0.2s ease-in-out;
 }
-.socials a{
+.socials a,
+.socials a:visited{
     color: var(--text);
+}
+.socials a:hover{
+    color: var(--accent);
 }
 .socials i:hover{
     color: var(--accent);
