@@ -26,6 +26,12 @@ menuIcon.onclick = () => {
     navLinks.classList.toggle('active');
 }
 
+navLinks.querySelectorAll('a').forEach((link) => {
+    link.onclick = () => {
+        navLinks.classList.remove('active');
+    }
+});
+
 themeBtn.onclick = () => {
     document.body.classList.toggle('dark-mode');
     themeIcon.classList.toggle('fa-moon');

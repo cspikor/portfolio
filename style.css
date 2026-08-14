@@ -544,6 +544,9 @@ footer ul li a{
     html{
         scroll-snap-type: none;
     }
+    .next-section-btn{
+        display: none;
+    }
     header{
         gap: 1rem;
         padding: 1rem;
