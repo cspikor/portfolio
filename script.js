@@ -56,6 +56,7 @@ async function animateThemeChange(isDark){
         return;
     }
 
+    document.body.classList.add('theme-transitioning');
     const transition = document.startViewTransition(() => setTheme(isDark));
 
     try{
@@ -68,6 +69,7 @@ async function animateThemeChange(isDark){
     }catch(error){
         // The theme is already updated if the browser skips the animation.
     }finally{
+        document.body.classList.remove('theme-transitioning');
         themeTransitionInProgress = false;
     }
 }

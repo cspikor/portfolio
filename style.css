@@ -71,6 +71,10 @@ header{
     z-index: 1000;
     max-width: calc(100% - 2rem);
 }
+body.theme-transitioning header{
+    background-color: var(--background);
+    backdrop-filter: none;
+}
 .logo{
     color: var(--text);
     font-size: 1.3rem;
