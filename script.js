@@ -36,7 +36,7 @@ function setTheme(isDark){
     document.body.classList.toggle('dark-mode', isDark);
     themeIcon.classList.toggle('fa-moon', isDark);
     themeIcon.classList.toggle('fa-sun', !isDark);
-    resumeDownloadBtn.href = getResumePath();
+    resumeDownloadBtn.href = './Resume-light.pdf';
 
     if(modal.classList.contains('active') && resumeModal.classList.contains('active')){
         loadResume();

@@ -4,8 +4,8 @@
     --text: #24221f;
     --muted-text: #6d6860;
     --border: #ded9d0;
-    --accent: #c9a27e;
-    --accent-hover: #aa835f;
+    --accent: #c7a47e;
+    --accent-hover: #d7bb9c;
     --header-background: rgba(247, 246, 242, 0.88);
 }
 
@@ -15,8 +15,8 @@ body.dark-mode{
     --text: #f5f1e9;
     --muted-text: #bbb4aa;
     --border: #4a4640;
-    --accent: #d8b38c;
-    --accent-hover: #e5c6a5;
+    --accent: #c7a47e;
+    --accent-hover: #d7bb9c;
     --header-background: rgba(31, 30, 27, 0.88);
 }
 
@@ -116,22 +116,6 @@ li a::before{
 li a:hover::before{
     width: 100%;
 }
-.visit-btn{
-    padding: 0.85rem 1.5rem;
-    border-radius: 3rem;
-    border: none;
-    font-weight: 600;
-    font-size: 1rem;
-    color: white;
-    cursor: pointer;
-    text-wrap: nowrap;
-    transition: 0.3s ease-in-out;
-    background: var(--accent);
-}
-.visit-btn:hover{
-    background: var(--accent-hover);
-    transform: scale(1.03);
-}
 .theme-btn{
     background: transparent;
     border: none;
@@ -203,6 +187,7 @@ section{
 .section-nav-btn:hover{
     border-color: var(--accent);
     color: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent), 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 .next-section-btn:hover{
     transform: translateY(4px);
@@ -212,14 +197,24 @@ section{
 }
 .about{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 2rem;
 }
 .about .about-container{
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8rem;
+}
+.about-intro{
+    max-width: 62rem;
+    margin-top: 3rem;
+    color: var(--muted-text);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    text-align: center;
 }
 .about img{
     width: 30vw;
@@ -271,9 +266,10 @@ section{
     transition: 0.2s ease-in-out;
 }
 .btn:hover{
-    background-color: var(--text);
-    border-color: var(--text);
-    color: var(--background);
+    background-color: var(--surface);
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent);
 }
 #resume-btn,
 #contact-btn{
@@ -331,6 +327,7 @@ section{
 .grid-card:hover,
 .project-card:hover{
     border-color: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent), 0 4px 16px rgba(0, 0, 0, 0.04);
     transform: translateY(-6px);
 }
 .grid-card i{
@@ -394,10 +391,17 @@ section{
     font-size: 1.5rem;
     font-weight: 600;
 }
+.project-location{
+    margin-top: 0.25rem;
+    color: var(--muted-text);
+    font-size: 0.95rem;
+    font-style: italic;
+}
 .project-card p{
     color: var(--muted-text);
-    margin-top: 0.75rem;
-    line-height: 1.5;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
 }
 .education-grid{
     display: grid;
@@ -439,19 +443,62 @@ section{
     align-items: center;
     justify-content: center;
     text-align: center;
-    gap: 1.25rem;
+    gap: 0.75rem;
     margin-top: 0;
+}
+.contact .section-title{
+    margin-bottom: 0.6rem;
 }
 .email-btn{
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    font-size: 1.2rem;
-    padding: 0.9rem 1.8rem;
 }
 .contact-actions{
+    width: auto;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0.65rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 3rem;
+    background-color: var(--header-background);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+.contact-actions .email-btn{
+    position: relative;
+    width: auto;
+    justify-content: flex-start;
+    padding: 0.85rem 0.75rem;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    transition: none;
+}
+.contact-actions .email-btn::before{
+    position: absolute;
+    bottom: 0.2rem;
+    left: 0.75rem;
+    width: 0;
+    height: 2px;
+    content: '';
+    border-radius: 1rem;
+    background: var(--accent);
+    transition: 0.3s ease-in-out;
+}
+.contact-actions .email-btn:hover{
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    color: var(--text);
+}
+.contact-actions .email-btn:hover::before{
+    width: calc(100% - 1.5rem);
+}
+.contact-modal-content .email-btn{
+    width: 100%;
+    justify-content: center;
 }
 
 .modal{
@@ -529,8 +576,11 @@ section{
     color: var(--accent-hover);
 }
 .contact-modal-content .btn-group{
+    width: min(100%, 22rem);
+    margin-inline: auto;
+    flex-direction: column;
+    align-items: stretch;
     justify-content: center;
-    flex-wrap: wrap;
 }
 .modal-page{
     display: none;
@@ -718,8 +768,12 @@ footer ul li a{
         margin-top: 0.5rem;
     }
     .experience .section-title,
-    .projects .section-title{
+    .projects .section-title,
+    .education-section .section-title{
         margin-bottom: 2.25rem;
+        font-size: 3.25rem;
+    }
+    .contact .section-title{
         font-size: 3.25rem;
     }
     .projects-grid{
@@ -729,16 +783,16 @@ footer ul li a{
         margin: 0 auto;
     }
     .project-card{
-        min-height: clamp(20rem, 31vh, 24rem);
+        min-height: clamp(18rem, 26vh, 20rem);
         padding: 0 1.5rem 1.5rem;
     }
     .project-card img{
         width: calc(100% + 3rem);
-        height: clamp(12rem, 18vh, 15rem);
+        height: clamp(11rem, 16vh, 14rem);
         margin: 0 -1.5rem 0.85rem;
     }
     .project-card h3{
-        font-size: 1.4rem;
+        font-size: 1.3rem;
     }
     .project-card p{
         margin-top: 0.5rem;
@@ -752,6 +806,27 @@ footer ul li a{
     .section-navigation{
         display: none;
     }
+    .contact-actions{
+        width: min(100%, 22rem);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+    .contact-actions .email-btn{
+        width: 100%;
+        justify-content: center;
+        padding: 0.6rem 1.5rem;
+        border: 1px solid var(--border);
+        border-radius: 3rem;
+        background: var(--surface);
+    }
+    .contact-actions .email-btn::before{
+        display: none;
+    }
     .tile-hint{
         margin-bottom: 1.5rem;
     }
@@ -761,9 +836,6 @@ footer ul li a{
     }
     header .logo{
         font-size: 1rem;
-    }
-    header .visit-btn{
-        display: none;
     }
     .about .about-container{
         flex-direction: column;
@@ -797,9 +869,6 @@ footer ul li a{
         justify-content: space-between;
         gap: 1rem;
         padding: 1rem;
-    }
-    header .visit-btn{
-        display: none;
     }
     header #menu-icon{
         display: block;
