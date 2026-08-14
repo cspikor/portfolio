@@ -6,6 +6,7 @@ const menuIcon = document.querySelector('#menu-icon');
 const navLinks = document.querySelector('.nav-links');
 const themeBtn = document.querySelector('#theme-btn');
 const themeIcon = themeBtn.querySelector('i');
+const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
 
 const modal = document.querySelector('#modal');
 const closeBtn = document.querySelector('#close-btn');
@@ -24,6 +25,15 @@ const projectHero = document.querySelector('#project-hero');
 const detailCards = document.querySelectorAll('.project-card, .grid-card');
 const pdfViewer = document.querySelector('#pdf-viewer');
 
+function setTheme(isDark){
+    document.body.classList.toggle('dark-mode', isDark);
+    themeIcon.classList.toggle('fa-moon', !isDark);
+    themeIcon.classList.toggle('fa-sun', isDark);
+}
+
+const savedTheme = localStorage.getItem('portfolio-theme');
+setTheme(savedTheme ? savedTheme === 'dark' : systemTheme.matches);
+
 menuIcon.onclick = () => {
     navLinks.classList.toggle('active');
 }
@@ -35,10 +45,16 @@ navLinks.querySelectorAll('a').forEach((link) => {
 });
 
 themeBtn.onclick = () => {
-    document.body.classList.toggle('dark-mode');
-    themeIcon.classList.toggle('fa-moon');
-    themeIcon.classList.toggle('fa-sun');
+    const isDark = !document.body.classList.contains('dark-mode');
+    setTheme(isDark);
+    localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
 }
+
+systemTheme.addEventListener('change', (event) => {
+    if(!localStorage.getItem('portfolio-theme')){
+        setTheme(event.matches);
+    }
+});
 
 function openModal(page){
     modal.classList.remove('closing');
