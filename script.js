@@ -68,7 +68,7 @@ systemTheme.addEventListener('change', (event) => {
     }
 });
 
-function openModal(page){
+function openModal(page, isProject = false){
     modal.classList.remove('closing');
     resumeModal.classList.remove('active');
     contactModal.classList.remove('active');
@@ -89,7 +89,7 @@ function openModal(page){
     if(page === contactModal){
         modalContent.classList.add('contact-modal-content');
     }
-    if(page === projectModal){
+    if(page === projectModal && isProject){
         modalContent.classList.add('project-modal-content');
     }
 
@@ -217,7 +217,7 @@ detailCards.forEach((card) => {
             projectGallery.classList.remove('active');
         }
 
-        openModal(projectModal);
+        openModal(projectModal, card.classList.contains('project-card'));
     }
 });
 
