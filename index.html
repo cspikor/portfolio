@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Christian Pikor | Portfolio</title>
-    <link rel="stylesheet" href="style.css?v=20260817">
+    <link rel="stylesheet" href="style.css?v=20260828">
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
 </head>
 <body>
@@ -16,6 +16,7 @@
             <li><a href="#about">About</a></li>
             <li><a href="#experience">Experience</a></li>
             <li><a href="#projects">Projects</a></li>
+            <li><a href="#education">Education</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
 
@@ -30,7 +31,7 @@
 
     <section id="about" class="about">
         <div class="about-container">
-            <img src="Headshot.JPG" alt="Christian Pikor">
+            <img src="assets/images/headshot/Headshot.JPG" alt="Christian Pikor">
 
             <div class="info-box">
                 <div class="text">
@@ -62,6 +63,7 @@
 
     <section id="experience" class="experience">
         <h2 class="section-title">Experience</h2>
+        <p class="tile-hint">Click tile to see more</p>
 
         <div class="experience-info">
             <div class="grid">
@@ -121,32 +123,66 @@
 
     <section id="projects" class="projects">
         <h2 class="section-title">Projects</h2>
+        <p class="tile-hint">Click tile to see more</p>
 
         <div class="projects-grid">
-            <div class="project-card" data-title="Lunar Rover Ski Braking System | UBC + Canadian Space Agency" data-details="Led a five-person mechanical engineering team.|Developed and built a ski braking system for the Canadian Space Agency's CRATER Lunar Rover capstone project." data-photos="./project-1-photo-1.png|./project-1-photo-2.gif">
-                <img src="project-1.png" alt="Lunar Rover Ski Braking System">
+            <div class="project-card" data-title="Lunar Rover Ski Braking System | UBC + Canadian Space Agency" data-details="Led a five-person mechanical engineering team.|Developed and built a ski braking system for the Canadian Space Agency's CRATER Lunar Rover capstone project." data-photos="assets/images/projects/project-1/project-1-photo-1.png|assets/images/projects/project-1/project-1-photo-2.gif" data-captions="Full rover prototype|Braking engagement test">
+                <img src="assets/images/projects/project-1/project-1.png" alt="Lunar Rover Ski Braking System">
                 <h3>Lunar Rover Ski Braking System | UBC + Canadian Space Agency</h3>
                 <p>Led a five-person team developing a braking system for the CRATER Lunar Rover.</p>
             </div>
 
-            <div class="project-card" data-title="UBC Aerodesign Fuselage Design" data-details="Led the design of the Advanced Class Fuselage, including the structure, landing gear, empennage, and integration with subsystems and other subteams.|Personally responsible for high-level fuselage systems design.|Oversaw lower-level design work for approximately 10 team members." data-photos="./project-2-photo-1.png|./project-2-photo-2.png">
-                <img src="project-2.png" alt="UBC Aerodesign Fuselage Design">
+            <div class="project-card" data-title="UBC Aerodesign Fuselage Design" data-details="Led the design of the Advanced Class Fuselage, including the structure, landing gear, empennage, and integration with subsystems and other subteams.|Personally responsible for high-level fuselage systems design.|Oversaw lower-level design work for approximately 10 team members." data-photos="assets/images/projects/project-2/project-2-photo-1.png|assets/images/projects/project-2/project-2-photo-2.png" data-captions="Aircraft in flight|Fuselage breakdown">
+                <img src="assets/images/projects/project-2/project-2.png" alt="UBC Aerodesign Fuselage Design">
                 <h3>UBC Aerodesign Fuselage Design</h3>
                 <p>Led Advanced Class fuselage design and guided a 10-person team.</p>
             </div>
 
-            <div class="project-card" data-title="Titan Endurance Project | UBC" data-details="Led a six-person team to build a launcher and buggy system for UBC's MECH 223 course under strict budget and schedule constraints.|Integrated an Arduino, accelerometer, servo, and mechanical components to launch a payload toward a target while moving.|Built MATLAB simulations to optimize payload speed and trajectory." data-photos="./project-3-photo-1.png|./project-3-photo-2.png">
-                <img src="project-3.png" alt="Titan Endurance Rover">
+            <div class="project-card" data-title="Titan Endurance Project | UBC" data-details="Led a six-person team to build a launcher and buggy system for UBC's MECH 223 course under strict budget and schedule constraints.|Integrated an Arduino, accelerometer, servo, and mechanical components to launch a payload toward a target while moving.|Built MATLAB simulations to optimize payload speed and trajectory." data-photos="assets/images/projects/project-3/project-3-photo-1.png|assets/images/projects/project-3/project-3-photo-2.png" data-captions="Buggy prototype|Competition platform">
+                <img src="assets/images/projects/project-3/project-3.png" alt="Titan Endurance Rover">
                 <h3>Titan Endurance Project | UBC</h3>
                 <p>Led a team building a moving launcher and buggy system for MECH 223.</p>
             </div>
 
-            <div class="project-card" data-title="Atmospheric Monitoring | Capilano University" data-details="Led development of a wireless, drone-mounted air-quality monitoring system that streamed telemetry to a ground receiver.|Designed and assembled the structure and wired the electrical sensor system.|Integrated wireless transceivers with an Arduino to achieve less than 1% data loss." data-photos="./project-4-photo-1.png|./project-4-photo-2.png">
-                <img src="project-4.png" alt="Atmospheric Monitoring project">
+            <div class="project-card" data-title="Atmospheric Monitoring | Capilano University" data-details="Led development of a wireless, drone-mounted air-quality monitoring system that streamed telemetry to a ground receiver.|Designed and assembled the structure and wired the electrical sensor system.|Integrated wireless transceivers with an Arduino to achieve less than 1% data loss." data-photos="assets/images/projects/project-4/project-4-photo-1.png|assets/images/projects/project-4/project-4-photo-2.png" data-captions="Sensor housing CAD|Live data stream">
+                <img src="assets/images/projects/project-4/project-4.png" alt="Atmospheric Monitoring project">
                 <h3>Atmospheric Monitoring | Capilano University</h3>
                 <p>Built a drone-mounted air-quality monitoring system with live wireless telemetry.</p>
             </div>
         </div>
+        <a href="#education" class="next-section-btn" aria-label="Go to Education">
+            <i class="fa-solid fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <section class="education-section" id="education">
+        <h2 class="section-title">Education</h2>
+
+        <div class="education-grid">
+            <article class="education-card">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h3>M.A.Sc. in Mechanical Engineering</h3>
+                <p class="institution">University of British Columbia</p>
+                <p>Ongoing</p>
+            </article>
+
+            <article class="education-card">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h3>B.A.Sc. in Mechanical Engineering w/ Aerospace Option</h3>
+                <p class="institution">University of British Columbia</p>
+                <p>2022/09 - 2026/05 · 90.5% cumulative average</p>
+                <p>With Distinction · Dean's Scholar · CSME Gold Medal</p>
+            </article>
+
+            <article class="education-card">
+                <i class="fa-solid fa-certificate"></i>
+                <h3>Engineering Certificate</h3>
+                <p class="institution">Capilano University</p>
+                <p>2021/09 - 2022/05 · 4.28 GPA</p>
+                <p>Dean's List</p>
+            </article>
+        </div>
+
         <a href="#contact" class="next-section-btn" aria-label="Go to Contact">
             <i class="fa-solid fa-chevron-down"></i>
         </a>
@@ -175,6 +211,7 @@
             <li><a href="#about">About</a></li>
             <li><a href="#experience">Experience</a></li>
             <li><a href="#projects">Projects</a></li>
+            <li><a href="#education">Education</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
 
@@ -209,6 +246,7 @@
             </div>
 
             <div class="modal-page" id="project-modal">
+                <div class="project-hero" id="project-hero"></div>
                 <h2 id="project-title"></h2>
                 <ul class="detail-list" id="project-description"></ul>
                 <div class="project-gallery" id="project-gallery"></div>
@@ -216,6 +254,6 @@
         </div>
     </div>
 
-    <script type="module" src="script.js?v=20260818"></script>
+    <script type="module" src="script.js?v=20260821"></script>
 </body>
 </html>

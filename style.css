@@ -176,6 +176,13 @@ section{
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     transition: 0.2s ease-in-out;
 }
+.tile-hint{
+    margin: -2.25rem 0 1.5rem;
+    color: var(--muted-text);
+    font-size: 1rem;
+    font-style: italic;
+    text-align: center;
+}
 .next-section-btn:hover{
     border-color: var(--accent);
     color: var(--accent);
@@ -281,7 +288,8 @@ section{
     gap: 5rem;
 }
 .experience,
-.projects{
+.projects,
+.education-section{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -357,18 +365,22 @@ section{
     grid-template-columns: repeat(2,minmax(0,1fr));
     grid-auto-rows: 1fr;
     gap: 1.5rem;
+    margin-bottom: 4.5rem;
 }
 .project-card img{
-    width: 100%;
+    width: calc(100% + 4rem);
     height: clamp(8rem, 15vh, 11rem);
-    object-fit: contain;
-    border-radius: 1rem;
-    margin-bottom: 1rem;
+    margin: 0 -2rem 1.25rem;
+    object-fit: cover;
+    border-radius: 1.5rem 1.5rem 0 0;
 }
 .project-card{
+    padding: 0 2rem 2rem;
+    align-items: stretch;
     min-height: clamp(16rem, 27vh, 21rem);
     height: auto;
     max-height: none;
+    overflow: hidden;
 }
 .project-card h3{
     color: var(--text);
@@ -379,6 +391,39 @@ section{
     color: var(--muted-text);
     margin-top: 0.75rem;
     line-height: 1.5;
+}
+.education-grid{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+.education-card{
+    min-height: 16rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+.education-card i{
+    margin-bottom: 1rem;
+    color: var(--accent);
+    font-size: 1.5rem;
+}
+.education-card h3{
+    font-size: 1.5rem;
+}
+.education-card p{
+    margin-top: 0.75rem;
+    color: var(--muted-text);
+    line-height: 1.5;
+}
+.education-card .institution{
+    margin-top: 0.35rem;
+    font-style: italic;
 }
 
 .input-box{
@@ -414,6 +459,17 @@ section{
 }
 .modal.active{
     display: block;
+    animation: modal-backdrop-in 0.25s ease-out;
+}
+.modal.active .modal-content{
+    animation: modal-content-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal.closing{
+    display: block;
+    animation: modal-backdrop-out 0.22s ease-in forwards;
+}
+.modal.closing .modal-content{
+    animation: modal-content-out 0.22s cubic-bezier(0.7, 0, 0.84, 0) forwards;
 }
 .modal-content{
     position: relative;
@@ -425,6 +481,33 @@ section{
     border: 1px solid var(--border);
     border-radius: 1.5rem;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+@keyframes modal-backdrop-in{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+@keyframes modal-content-in{
+    from{
+        transform: scale(0.35);
+    }
+    to{
+        transform: scale(1);
+    }
+}
+@keyframes modal-backdrop-out{
+    to{
+        opacity: 0;
+    }
+}
+@keyframes modal-content-out{
+    to{
+        opacity: 0;
+        transform: scale(0.35);
+    }
 }
 .modal-content.resume-modal-content{
     width: min(1000px, 100%);
@@ -446,6 +529,20 @@ section{
 .modal-page h2{
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
+}
+.project-hero{
+    display: none;
+    margin: -2rem -2rem 1.5rem;
+    overflow: hidden;
+    border-radius: 1.5rem 1.5rem 0 0;
+}
+.project-hero.active{
+    display: block;
+}
+.project-hero img{
+    display: block;
+    width: 100%;
+    height: auto;
 }
 .modal-page p,
 .detail-list{
@@ -483,6 +580,15 @@ section{
     border: 1px solid var(--border);
     border-radius: 1rem;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+.project-gallery figure{
+    margin: 0;
+}
+.project-gallery figcaption{
+    margin-top: 0.5rem;
+    color: var(--muted-text);
+    font-size: 1rem;
+    text-align: center;
 }
 .pdf-viewer{
     width: 100%;
@@ -553,12 +659,24 @@ footer ul li a{
     }
 }
 
+@media(min-width:1281px){
+    .project-card{
+        min-height: clamp(20rem, 30vh, 24rem);
+    }
+    .project-card img{
+        height: clamp(12rem, 18vh, 15rem);
+    }
+}
+
 @media(max-width:768px){
     html{
         scroll-snap-type: none;
     }
     .next-section-btn{
         display: none;
+    }
+    .tile-hint{
+        margin-bottom: 1.5rem;
     }
     header{
         gap: 1rem;
@@ -577,12 +695,22 @@ footer ul li a{
         width: 55vw;
     }
     .grid,
-    .projects-grid{
+    .projects-grid,
+    .education-grid{
         grid-template-columns: 1fr;
     }
     .project-card{
         height: auto;
         max-height: none;
+    }
+}
+
+@media(prefers-reduced-motion: reduce){
+    .modal.active,
+    .modal.active .modal-content,
+    .modal.closing,
+    .modal.closing .modal-content{
+        animation: none;
     }
 }
 
@@ -645,6 +773,9 @@ footer ul li a{
     .modal-content{
         margin: 1rem auto;
         padding: 3.5rem 1.5rem 1.5rem;
+    }
+    .project-hero{
+        margin: -3.5rem -1.5rem 1.5rem;
     }
     .modal-page .btn-group{
         flex-direction: column;

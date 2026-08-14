@@ -19,6 +19,7 @@ const projectModal = document.querySelector('#project-modal');
 const projectTitle = document.querySelector('#project-title');
 const projectDescription = document.querySelector('#project-description');
 const projectGallery = document.querySelector('#project-gallery');
+const projectHero = document.querySelector('#project-hero');
 const detailCards = document.querySelectorAll('.project-card, .grid-card');
 const pdfViewer = document.querySelector('#pdf-viewer');
 
@@ -39,6 +40,7 @@ themeBtn.onclick = () => {
 }
 
 function openModal(page){
+    modal.classList.remove('closing');
     resumeModal.classList.remove('active');
     contactModal.classList.remove('active');
     projectModal.classList.remove('active');
@@ -59,8 +61,16 @@ function openModal(page){
 }
 
 function closeModal(){
-    modal.classList.remove('active');
+    if(!modal.classList.contains('active') || modal.classList.contains('closing')){
+        return;
+    }
+
+    modal.classList.add('closing');
     document.body.classList.remove('modal-open');
+
+    window.setTimeout(() => {
+        modal.classList.remove('active', 'closing');
+    }, 220);
 }
 
 async function loadResume(){
@@ -122,13 +132,36 @@ detailCards.forEach((card) => {
             })
         );
 
+        projectHero.replaceChildren();
+        if(card.classList.contains('project-card')){
+            const heroImage = document.createElement('img');
+            const tileImage = card.querySelector('img');
+            heroImage.src = tileImage.src;
+            heroImage.alt = tileImage.alt;
+            projectHero.appendChild(heroImage);
+            projectHero.classList.add('active');
+        }
+        else{
+            projectHero.classList.remove('active');
+        }
+
         projectGallery.replaceChildren();
         if(card.dataset.photos){
+            const captions = card.dataset.captions?.split('|') || [];
             card.dataset.photos.split('|').forEach((photo, index) => {
+                const figure = document.createElement('figure');
                 const image = document.createElement('img');
                 image.src = photo;
                 image.alt = `${card.dataset.title} supporting photo ${index + 1}`;
-                projectGallery.appendChild(image);
+                figure.appendChild(image);
+
+                if(captions[index]){
+                    const caption = document.createElement('figcaption');
+                    caption.textContent = captions[index];
+                    figure.appendChild(caption);
+                }
+
+                projectGallery.appendChild(figure);
             });
             projectGallery.classList.add('active');
         }
