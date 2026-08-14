@@ -570,10 +570,11 @@ section{
 .resume-modal-content #resume-modal h2{
     margin: 0;
     padding: 1.5rem 4.5rem 1.25rem 2rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 2px solid var(--border);
 }
 .resume-modal-content .pdf-viewer{
     padding: 0;
+    border-bottom: 2px solid var(--border);
     border-radius: 0;
     background: var(--surface);
 }
@@ -583,7 +584,14 @@ section{
     box-shadow: none;
 }
 .resume-modal-content .pdf-viewer canvas + canvas{
-    border-top: 1px solid var(--border);
+    border-top: 2px solid var(--border);
+}
+body.dark-mode .resume-modal-content .pdf-viewer canvas{
+    filter: invert(1) hue-rotate(180deg);
+    mix-blend-mode: screen;
+}
+body.dark-mode .resume-modal-content .pdf-viewer{
+    background: var(--background);
 }
 .resume-modal-content .resume-download-btn{
     margin: 1.5rem auto;

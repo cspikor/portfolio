@@ -41,23 +41,21 @@ popoutImageSources.forEach((source) => {
     preload.src = source;
 });
 
-['./Resume-light.pdf', './Resume-dark.pdf'].forEach((path) => {
+['./Resume.pdf'].forEach((path) => {
     fetch(path, {cache: 'force-cache'}).catch(() => {
         // The resume viewer will show its existing fallback if a PDF cannot load.
     });
 });
 
 function getResumePath(){
-    return document.body.classList.contains('dark-mode')
-        ? './Resume-dark.pdf'
-        : './Resume-light.pdf';
+    return './Resume.pdf';
 }
 
 function setTheme(isDark){
     document.body.classList.toggle('dark-mode', isDark);
     themeIcon.classList.toggle('fa-moon', isDark);
     themeIcon.classList.toggle('fa-sun', !isDark);
-    resumeDownloadBtn.href = './Resume-light.pdf';
+    resumeDownloadBtn.href = './Resume.pdf';
 
     if(modal.classList.contains('active') && resumeModal.classList.contains('active')){
         loadResume();
@@ -199,7 +197,7 @@ async function loadResume(){
             const baseViewport = page.getViewport({scale: 1});
             const availableWidth = pdfViewer.clientWidth;
             const displayScale = Math.max(0.1, availableWidth / baseViewport.width);
-            const renderScale = displayScale * Math.min(window.devicePixelRatio || 1, 2);
+            const renderScale = displayScale * Math.min(window.devicePixelRatio || 1, 3);
             const viewport = page.getViewport({scale: renderScale});
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
