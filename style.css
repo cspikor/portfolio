@@ -563,7 +563,30 @@ section{
     }
 }
 .modal-content.resume-modal-content{
-    width: min(1000px, 100%);
+    width: min(1100px, 100%);
+    padding: 0;
+    overflow: hidden;
+}
+.resume-modal-content #resume-modal h2{
+    margin: 0;
+    padding: 1.5rem 4.5rem 1.25rem 2rem;
+    border-bottom: 1px solid var(--border);
+}
+.resume-modal-content .pdf-viewer{
+    padding: 0;
+    border-radius: 0;
+    background: var(--surface);
+}
+.resume-modal-content .pdf-viewer canvas{
+    width: 100%;
+    margin: 0;
+    box-shadow: none;
+}
+.resume-modal-content .pdf-viewer canvas + canvas{
+    border-top: 1px solid var(--border);
+}
+.resume-modal-content .resume-download-btn{
+    margin: 1.5rem auto;
 }
 .modal-content.contact-modal-content{
     width: min(460px, 100%);
@@ -805,6 +828,14 @@ footer ul li a{
 @media(max-width:768px){
     html{
         scroll-snap-type: none;
+    }
+    .contact{
+        min-height: auto;
+        padding-bottom: 3rem;
+    }
+    footer{
+        min-height: auto;
+        padding: 2rem 12%;
     }
     .section-navigation{
         display: none;

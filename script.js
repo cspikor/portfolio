@@ -197,7 +197,7 @@ async function loadResume(){
         for(let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++){
             const page = await pdf.getPage(pageNumber);
             const baseViewport = page.getViewport({scale: 1});
-            const availableWidth = pdfViewer.clientWidth - 24;
+            const availableWidth = pdfViewer.clientWidth;
             const displayScale = Math.max(0.1, availableWidth / baseViewport.width);
             const renderScale = displayScale * Math.min(window.devicePixelRatio || 1, 2);
             const viewport = page.getViewport({scale: renderScale});
