@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christian Pikor | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <a href="#" class="logo"><span>Christian Pikor</span></a>
+
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <button class="theme-btn" id="theme-btn" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <i class="fa-solid fa-bars" id="menu-icon"></i>
+
+        <a href="https://www.linkedin.com" class="visit-btn" target="_blank">Visit LinkedIn</a>
+    </header>
+
+    <section id="about" class="about">
+        <div class="about-container">
+            <img src="Headshot.JPG" alt="Christian Pikor">
+
+            <div class="info-box">
+                <div class="text">
+                    <h3>Hi, I'm</h3>
+                    <h1>Christian Pikor</h1>
+                    <span>Mechanical Engineer</span>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn" id="resume-btn">View Resume</button>
+                    <button class="btn" id="contact-btn">Contact</button>
+                </div>
+
+                <div class="socials">
+                    <i class="fa-brands fa-github"></i>
+                    <i class="fa-brands fa-linkedin"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="experience">
+        <h2 class="section-title">Experience</h2>
+
+        <div class="experience-info">
+            <div class="grid">
+                <div class="grid-card" data-title="Research Assistant" data-details="Add the full details for this role here.">
+                    <i class="fa-solid fa-book"></i>
+                    <span>Research Assistant</span>
+                    <div class="employer">Employer details coming soon</div>
+                    <h3>2026/05 - 2026/08</h3>
+                    <p>Add a short description for this role.</p>
+                </div>
+
+                <div class="grid-card" data-title="Research Student | University of British Columbia" data-details="Researched non-Newtonian liquid-jet impingement on moving surfaces with Dr. Sheldon Green.|Repaired and operated the test apparatus, ran experiments, analyzed data, and presented results.">
+                    <i class="fa-solid fa-book"></i>
+                    <span>Research Student</span>
+                    <div class="employer">University of British Columbia</div>
+                    <h3>2025/05 - 2025/08</h3>
+                    <p>Studied non-Newtonian jet impingement through experiments and data analysis.</p>
+                </div>
+
+                <div class="grid-card" data-title="Manufacturing Engineering Intern | Tesla" data-details="Designed and supported installation of safety fixtures and hardware for a newly built Gigafactory 1 manufacturing line.|Collaborated with vendors to purchase and procure components.">
+                    <i class="fa-brands fa-tesla"></i>
+                    <span>Manufacturing Engineering Intern</span>
+                    <div class="employer">Tesla</div>
+                    <h3>2025/01 - 2025/05</h3>
+                    <p>Designed safety fixtures and coordinated component procurement for Gigafactory 1.</p>
+                </div>
+
+                <div class="grid-card" data-title="Advanced Fuselage Lead | UBC SAE Aerodesign" data-details="Led a 10-person Advanced Fuselage subteam for UBC SAE Aerodesign.|Directed fuselage design using CAD and computational analysis.|Manufactured aircraft components using composite layups, 3D printing, sheet metal, waterjet and laser cutting, and aluminum machining.">
+                    <i class="fa-solid fa-plane"></i>
+                    <span>Advanced Fuselage Lead</span>
+                    <div class="employer">UBC SAE Aerodesign</div>
+                    <h3>2022/08 - 2025/05</h3>
+                    <p>Led fuselage design, analysis, and hands-on aircraft component manufacturing.</p>
+                </div>
+
+                <div class="grid-card" data-title="Project Management Intern | Canadian Space Agency" data-details="Contributed to the Canadarm3 Project Management Team for NASA's Lunar Gateway program alongside international agencies and MDA Space.|Improved finance and document-management workflows with Power BI, Power Query, and Excel VBA.|Won the intern poster competition among approximately 20 teams.">
+                    <i class="fa-solid fa-shuttle-space"></i>
+                    <span>Project Management Intern</span>
+                    <div class="employer">Canadian Space Agency</div>
+                    <h3>2024/05 - 2024/08</h3>
+                    <p>Supported Canadarm3 project management and improved data workflows.</p>
+                </div>
+
+                <div class="grid-card" data-title="Project Coordinator | Modern Niagara" data-details="Worked with engineering management and trades on the New St. Paul's Hospital construction project, supporting progress, budget, data analysis, and scheduling.|Developed an interactive Power BI dashboard to track installation progress throughout the building.">
+                    <i class="fa-solid fa-helmet-safety"></i>
+                    <span>Project Coordinator</span>
+                    <div class="employer">Modern Niagara</div>
+                    <h3>2023/05 - 2023/12</h3>
+                    <p>Supported hospital construction delivery and built an installation-progress dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <h2 class="section-title">Projects</h2>
+
+        <div class="projects-grid">
+            <div class="project-card" data-title="Lunar Rover Ski Braking System | UBC + Canadian Space Agency" data-details="Led a five-person mechanical engineering team.|Developed and built a ski braking system for the Canadian Space Agency's CRATER Lunar Rover capstone project." data-photos="./project-1-photo-1.png|./project-1-photo-2.gif">
+                <img src="project-1.png" alt="Lunar Rover Ski Braking System">
+                <h3>Lunar Rover Ski Braking System | UBC + Canadian Space Agency</h3>
+                <p>Led a five-person team developing a braking system for the CRATER Lunar Rover.</p>
+            </div>
+
+            <div class="project-card" data-title="UBC Aerodesign Fuselage Design" data-details="Project details coming soon." data-photos="./project-2-photo-1.png|./project-2-photo-2.png">
+                <img src="project-2.png" alt="UBC Aerodesign Fuselage Design">
+                <h3>UBC Aerodesign Fuselage Design</h3>
+                <p>Project details coming soon.</p>
+            </div>
+
+            <div class="project-card" data-title="Titan Endurance Project | UBC" data-details="Led a six-person team to build a launcher and buggy system for UBC's MECH 223 course under strict budget and schedule constraints.|Integrated an Arduino, accelerometer, servo, and mechanical components to launch a payload toward a target while moving.|Built MATLAB simulations to optimize payload speed and trajectory." data-photos="./project-3-photo-1.png|./project-3-photo-2.png">
+                <img src="project-3.png" alt="Titan Endurance Rover">
+                <h3>Titan Endurance Project | UBC</h3>
+                <p>Led a team building a moving launcher and buggy system for MECH 223.</p>
+            </div>
+
+            <div class="project-card" data-title="Atmospheric Monitoring | Capilano University" data-details="Led development of a wireless, drone-mounted air-quality monitoring system that streamed telemetry to a ground receiver.|Designed and assembled the structure and wired the electrical sensor system.|Integrated wireless transceivers with an Arduino to achieve less than 1% data loss." data-photos="./project-4-photo-1.png|./project-4-photo-2.png">
+                <img src="project-4.png" alt="Atmospheric Monitoring project">
+                <h3>Atmospheric Monitoring | Capilano University</h3>
+                <p>Built a drone-mounted air-quality monitoring system with live wireless telemetry.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="input-box">
+            <h2 class="section-title">Contact Me</h2>
+
+            <div class="btn-group contact-actions">
+                <a href="mailto:chpikor@hotmail.com" class="btn email-btn">
+                    <i class="fa-solid fa-envelope"></i>
+                    chpikor@hotmail.com
+                </a>
+
+                <a href="tel:+17787511324" class="btn email-btn">
+                    <i class="fa-solid fa-phone"></i>
+                    +1 778 751 1324
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <p class="copyright">© All Rights Reserved | Christian Pikor</p>
+    </footer>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="close-btn" aria-label="Close popout">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="modal-page" id="resume-modal">
+                <h2>Resume</h2>
+                <div class="pdf-viewer" id="pdf-viewer"></div>
+            </div>
+
+            <div class="modal-page" id="contact-modal">
+                <h2>Get In Touch</h2>
+
+                <div class="btn-group">
+                    <a href="mailto:chpikor@hotmail.com" class="btn email-btn">
+                        <i class="fa-solid fa-envelope"></i>
+                        chpikor@hotmail.com
+                    </a>
+
+                    <a href="tel:+17787511324" class="btn email-btn">
+                        <i class="fa-solid fa-phone"></i>
+                        +1 778 751 1324
+                    </a>
+                </div>
+            </div>
+
+            <div class="modal-page" id="project-modal">
+                <h2 id="project-title"></h2>
+                <ul class="detail-list" id="project-description"></ul>
+                <div class="project-gallery" id="project-gallery"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
