@@ -26,6 +26,21 @@ const detailCards = document.querySelectorAll('.project-card, .grid-card');
 const pdfViewer = document.querySelector('#pdf-viewer');
 const resumeDownloadBtn = document.querySelector('#resume-download-btn');
 
+const popoutImageSources = new Set();
+detailCards.forEach((card) => {
+    if(card.dataset.hero){
+        popoutImageSources.add(card.dataset.hero);
+    }
+    if(card.classList.contains('project-card')){
+        popoutImageSources.add(card.querySelector('img').src);
+    }
+    card.dataset.photos?.split('|').forEach((photo) => popoutImageSources.add(photo));
+});
+popoutImageSources.forEach((source) => {
+    const preload = new Image();
+    preload.src = source;
+});
+
 function getResumePath(){
     return document.body.classList.contains('dark-mode')
         ? './Resume-dark.pdf'
