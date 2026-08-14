@@ -34,13 +34,36 @@ function getResumePath(){
 
 function setTheme(isDark){
     document.body.classList.toggle('dark-mode', isDark);
-    themeIcon.classList.toggle('fa-moon', !isDark);
-    themeIcon.classList.toggle('fa-sun', isDark);
+    themeIcon.classList.toggle('fa-moon', isDark);
+    themeIcon.classList.toggle('fa-sun', !isDark);
     resumeDownloadBtn.href = getResumePath();
 
     if(modal.classList.contains('active') && resumeModal.classList.contains('active')){
         loadResume();
     }
+}
+
+function animateThemeChange(isDark){
+    const applyTheme = () => setTheme(isDark);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if(!document.startViewTransition || prefersReducedMotion){
+        applyTheme();
+        return;
+    }
+
+    const { left, top, width, height } = themeBtn.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
+    const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    const transition = document.startViewTransition(applyTheme);
+
+    transition.ready.then(() => {
+        document.documentElement.animate(
+            { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`] },
+            { duration: 650, easing: 'ease-in-out', pseudoElement: '::view-transition-new(root)' }
+        );
+    });
 }
 
 const savedTheme = localStorage.getItem('portfolio-theme');
@@ -58,7 +81,7 @@ navLinks.querySelectorAll('a').forEach((link) => {
 
 themeBtn.onclick = () => {
     const isDark = !document.body.classList.contains('dark-mode');
-    setTheme(isDark);
+    animateThemeChange(isDark);
     localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
 }
 

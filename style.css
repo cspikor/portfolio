@@ -142,8 +142,17 @@ li a:hover::before{
     cursor: pointer;
     transition: 0.2s ease-in-out;
 }
+body:not(.dark-mode) .theme-btn .fa-sun{
+    color: #ed9b27;
+}
+body.dark-mode .theme-btn .fa-moon{
+    color: #7fa8d6;
+}
+::view-transition-old(root),
+::view-transition-new(root){
+    animation: none;
+}
 .theme-btn:hover{
-    color: var(--accent);
     transform: scale(1.1);
 }
 #menu-icon{
