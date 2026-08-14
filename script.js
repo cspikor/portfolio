@@ -17,6 +17,7 @@ const resumeModal = document.querySelector('#resume-modal');
 const contactModal = document.querySelector('#contact-modal');
 const projectModal = document.querySelector('#project-modal');
 const projectTitle = document.querySelector('#project-title');
+const modalEmployer = document.querySelector('#modal-employer');
 const projectDescription = document.querySelector('#project-description');
 const projectGallery = document.querySelector('#project-gallery');
 const projectHero = document.querySelector('#project-hero');
@@ -123,7 +124,18 @@ contactBtn.onclick = () => {
 
 detailCards.forEach((card) => {
     card.onclick = () => {
-        projectTitle.textContent = card.dataset.title;
+        const [role, employer] = card.dataset.title.split(' | ');
+        projectTitle.textContent = role;
+        modalEmployer.textContent = '';
+        modalEmployer.classList.remove('active');
+
+        if(card.classList.contains('grid-card') && employer){
+            modalEmployer.textContent = employer;
+            modalEmployer.classList.add('active');
+        }
+        else if(card.classList.contains('project-card')){
+            projectTitle.textContent = card.dataset.title;
+        }
         projectDescription.replaceChildren(
             ...card.dataset.details.split('|').map((detail) => {
                 const item = document.createElement('li');
