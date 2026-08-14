@@ -24,11 +24,23 @@ const projectGallery = document.querySelector('#project-gallery');
 const projectHero = document.querySelector('#project-hero');
 const detailCards = document.querySelectorAll('.project-card, .grid-card');
 const pdfViewer = document.querySelector('#pdf-viewer');
+const resumeDownloadBtn = document.querySelector('#resume-download-btn');
+
+function getResumePath(){
+    return document.body.classList.contains('dark-mode')
+        ? './Resume-dark.pdf'
+        : './Resume-light.pdf';
+}
 
 function setTheme(isDark){
     document.body.classList.toggle('dark-mode', isDark);
     themeIcon.classList.toggle('fa-moon', !isDark);
     themeIcon.classList.toggle('fa-sun', isDark);
+    resumeDownloadBtn.href = getResumePath();
+
+    if(modal.classList.contains('active') && resumeModal.classList.contains('active')){
+        loadResume();
+    }
 }
 
 const savedTheme = localStorage.getItem('portfolio-theme');
@@ -61,7 +73,11 @@ function openModal(page){
     resumeModal.classList.remove('active');
     contactModal.classList.remove('active');
     projectModal.classList.remove('active');
-    modalContent.classList.remove('resume-modal-content', 'contact-modal-content');
+    modalContent.classList.remove(
+        'resume-modal-content',
+        'contact-modal-content',
+        'project-modal-content'
+    );
 
     page.classList.add('active');
     modal.classList.add('active');
@@ -72,6 +88,9 @@ function openModal(page){
     }
     if(page === contactModal){
         modalContent.classList.add('contact-modal-content');
+    }
+    if(page === projectModal){
+        modalContent.classList.add('project-modal-content');
     }
 
     modal.scrollTop = 0;
@@ -94,7 +113,8 @@ async function loadResume(){
     pdfViewer.innerHTML = '<p>Loading resume...</p>';
 
     try{
-        const pdf = await pdfjsLib.getDocument('./Resume.pdf').promise;
+        const resumePath = getResumePath();
+        const pdf = await pdfjsLib.getDocument(resumePath).promise;
 
         pdfViewer.innerHTML = '';
 
@@ -124,7 +144,7 @@ async function loadResume(){
     catch(error){
         pdfViewer.innerHTML = `
             <p>Could not load the resume.</p>
-            <a href="./Resume.pdf" class="btn" target="_blank">Open Resume PDF</a>
+            <a href="${getResumePath()}" class="btn" target="_blank">Open Resume PDF</a>
         `;
     }
 }

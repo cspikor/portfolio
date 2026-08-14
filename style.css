@@ -516,6 +516,12 @@ section{
 .modal-content.contact-modal-content{
     width: min(460px, 100%);
 }
+.modal-content.project-modal-content .close-btn{
+    color: #24221f;
+}
+.modal-content.project-modal-content .close-btn:hover{
+    color: var(--accent-hover);
+}
 .contact-modal-content .btn-group{
     justify-content: center;
     flex-wrap: wrap;
