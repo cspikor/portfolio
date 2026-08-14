@@ -41,6 +41,12 @@ popoutImageSources.forEach((source) => {
     preload.src = source;
 });
 
+['./Resume-light.pdf', './Resume-dark.pdf'].forEach((path) => {
+    fetch(path, {cache: 'force-cache'}).catch(() => {
+        // The resume viewer will show its existing fallback if a PDF cannot load.
+    });
+});
+
 function getResumePath(){
     return document.body.classList.contains('dark-mode')
         ? './Resume-dark.pdf'
