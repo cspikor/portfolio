@@ -236,11 +236,11 @@ detailCards.forEach((card) => {
         );
 
         projectHero.replaceChildren();
-        if(card.classList.contains('project-card')){
+        const heroPath = card.dataset.hero || (card.classList.contains('project-card') ? card.querySelector('img').src : undefined);
+        if(heroPath){
             const heroImage = document.createElement('img');
-            const tileImage = card.querySelector('img');
-            heroImage.src = tileImage.src;
-            heroImage.alt = tileImage.alt;
+            heroImage.src = heroPath;
+            heroImage.alt = `${card.dataset.title} image`;
             projectHero.appendChild(heroImage);
             projectHero.classList.add('active');
         }
@@ -272,7 +272,7 @@ detailCards.forEach((card) => {
             projectGallery.classList.remove('active');
         }
 
-        openModal(projectModal, card.classList.contains('project-card'));
+        openModal(projectModal, card.classList.contains('project-card') || Boolean(card.dataset.hero));
     }
 });
 

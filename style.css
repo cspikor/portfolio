@@ -569,12 +569,6 @@ section{
 .modal-content.contact-modal-content{
     width: min(460px, 100%);
 }
-.modal-content.project-modal-content .close-btn{
-    color: #24221f;
-}
-.modal-content.project-modal-content .close-btn:hover{
-    color: var(--accent-hover);
-}
 .contact-modal-content .btn-group{
     width: min(100%, 22rem);
     margin-inline: auto;
@@ -691,14 +685,24 @@ section{
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: transparent;
-    border: none;
+    z-index: 1;
+    display: grid;
+    width: 2.8rem;
+    height: 2.8rem;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface);
     color: var(--text);
-    font-size: 1.8rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    font-size: 1.2rem;
     cursor: pointer;
+    transition: 0.2s ease-in-out;
 }
 .close-btn:hover{
+    border-color: var(--accent);
     color: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent), 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 footer{
