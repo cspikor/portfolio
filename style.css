@@ -32,6 +32,14 @@ body.dark-mode{
 html{
     scroll-snap-type: y mandatory;
     overscroll-behavior-y: none;
+    scrollbar-width: none;
+}
+html::-webkit-scrollbar{
+    display: none;
+}
+html.is-section-scrolling{
+    scroll-behavior: auto;
+    scroll-snap-type: none;
 }
 
 body{
@@ -138,6 +146,27 @@ section{
     position: relative;
     scroll-snap-align: start;
     scroll-snap-stop: always;
+}
+.next-section-btn{
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    display: grid;
+    width: 2.8rem;
+    height: 2.8rem;
+    place-items: center;
+    transform: translateX(-50%);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background-color: var(--surface);
+    color: var(--text);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: 0.2s ease-in-out;
+}
+.next-section-btn:hover{
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateX(-50%) translateY(4px);
 }
 .about{
     display: flex;
