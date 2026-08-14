@@ -4,6 +4,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc ='./vendor/pdfjs/pdf.worker.min.mjs';
 
 const menuIcon = document.querySelector('#menu-icon');
 const navLinks = document.querySelector('.nav-links');
+const siteFavicon = document.querySelector('#site-favicon');
 const themeBtn = document.querySelector('#theme-btn');
 const themeIcon = themeBtn.querySelector('i');
 const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
@@ -41,21 +42,24 @@ popoutImageSources.forEach((source) => {
     preload.src = source;
 });
 
-['./Resume.pdf'].forEach((path) => {
+['./assets/documents/Resume.pdf'].forEach((path) => {
     fetch(path, {cache: 'force-cache'}).catch(() => {
         // The resume viewer will show its existing fallback if a PDF cannot load.
     });
 });
 
 function getResumePath(){
-    return './Resume.pdf';
+    return './assets/documents/Resume.pdf';
 }
 
 function setTheme(isDark){
     document.body.classList.toggle('dark-mode', isDark);
+    siteFavicon.href = isDark
+        ? 'assets/images/logo/favicon-dark.png?v=20260814'
+        : 'assets/images/logo/favicon-light.png?v=20260814';
     themeIcon.classList.toggle('fa-moon', isDark);
     themeIcon.classList.toggle('fa-sun', !isDark);
-    resumeDownloadBtn.href = './Resume.pdf';
+    resumeDownloadBtn.href = './assets/documents/Resume.pdf';
 
     if(modal.classList.contains('active') && resumeModal.classList.contains('active')){
         loadResume();
