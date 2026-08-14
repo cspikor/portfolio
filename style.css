@@ -69,6 +69,7 @@ header{
     border-radius: 3rem;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     z-index: 1000;
+    max-width: calc(100% - 2rem);
 }
 .logo{
     color: var(--text);
@@ -711,6 +712,53 @@ footer ul li a{
     .modal.closing,
     .modal.closing .modal-content{
         animation: none;
+    }
+}
+
+@media(max-width:900px){
+    header{
+        width: calc(100% - 2rem);
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    header .visit-btn{
+        display: none;
+    }
+    header #menu-icon{
+        display: block;
+    }
+    .theme-btn{
+        margin-left: auto;
+    }
+    .nav-links{
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        width: min(20rem, 100%);
+        margin-top: 1rem;
+        padding: 1rem;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        transform: translateX(-50%);
+        text-align: center;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+    .nav-links.active{
+        display: flex;
+    }
+    .nav-links li{
+        width: 100%;
+        margin-top: 0.15rem;
+        padding: 0;
+    }
+    .nav-links a{
+        width: 100%;
+        padding: 1rem;
     }
 }
 
