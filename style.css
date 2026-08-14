@@ -607,6 +607,14 @@ section{
 .pdf-viewer canvas:last-child{
     margin-bottom: 0;
 }
+.resume-download-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+    padding: 0.85rem 2rem;
+    font-size: 1.15rem;
+}
 .close-btn{
     position: absolute;
     top: 1rem;
