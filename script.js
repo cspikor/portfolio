@@ -99,6 +99,30 @@ systemTheme.addEventListener('change', (event) => {
     }
 });
 
+document.querySelectorAll('header a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+        const targetSelector = link.getAttribute('href');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if(targetSelector === '#'){
+            event.preventDefault();
+            window.scrollTo({top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth'});
+            return;
+        }
+
+        const target = document.querySelector(targetSelector);
+        if(!target){
+            return;
+        }
+
+        event.preventDefault();
+        target.scrollIntoView({
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+            block: target.classList.contains('contact') ? 'start' : 'center'
+        });
+    });
+});
+
 function openModal(page, isProject = false){
     modal.classList.remove('closing');
     resumeModal.classList.remove('active');
@@ -277,3 +301,33 @@ window.addEventListener('resize', () => {
     clearTimeout(resumeResizeTimer);
     resumeResizeTimer = setTimeout(loadResume, 150);
 });
+
+const pageSections = [...document.querySelectorAll('body > section')];
+const sectionUpBtn = document.querySelector('#section-up-btn');
+const sectionDownBtn = document.querySelector('#section-down-btn');
+
+function updateSectionNavigation(){
+    const currentSectionIndex = Math.max(
+        pageSections.findLastIndex((section) => section.offsetTop <= window.scrollY + 1),
+        0
+    );
+
+    const previousSection = pageSections[currentSectionIndex - 1];
+    const nextSection = pageSections[currentSectionIndex + 1];
+
+    sectionUpBtn.hidden = !previousSection;
+    sectionDownBtn.hidden = !nextSection;
+
+    if(previousSection){
+        sectionUpBtn.href = `#${previousSection.id}`;
+    }
+    if(nextSection){
+        sectionDownBtn.href = `#${nextSection.id}`;
+    }
+}
+
+window.addEventListener('scroll', () => {
+    updateSectionNavigation();
+}, {passive: true});
+
+updateSectionNavigation();

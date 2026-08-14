@@ -30,7 +30,7 @@ body.dark-mode{
 }
 html{
     scroll-behavior: smooth;
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
     overscroll-behavior-y: none;
     scrollbar-width: none;
 }
@@ -167,24 +167,31 @@ section{
     padding: 6rem 12%;
     width: 100%;
     position: relative;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    scroll-snap-align: center;
 }
-.next-section-btn{
-    position: absolute;
-    bottom: 1.5rem;
-    left: 50%;
+.section-nav-btn{
+    position: fixed;
+    left: 1.5rem;
     display: grid;
     width: 2.8rem;
     height: 2.8rem;
     place-items: center;
-    transform: translateX(-50%);
     border: 1px solid var(--border);
     border-radius: 50%;
     background-color: var(--surface);
     color: var(--text);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     transition: 0.2s ease-in-out;
+    z-index: 900;
+}
+.section-nav-btn[hidden]{
+    display: none;
+}
+.next-section-btn{
+    bottom: 38vh;
+}
+.previous-section-btn{
+    top: 38vh;
 }
 .tile-hint{
     margin: -2.25rem 0 1.5rem;
@@ -193,10 +200,15 @@ section{
     font-style: italic;
     text-align: center;
 }
-.next-section-btn:hover{
+.section-nav-btn:hover{
     border-color: var(--accent);
     color: var(--accent);
-    transform: translateX(-50%) translateY(4px);
+}
+.next-section-btn:hover{
+    transform: translateY(4px);
+}
+.previous-section-btn:hover{
+    transform: translateY(-4px);
 }
 .about{
     display: flex;
@@ -294,6 +306,7 @@ section{
     justify-content: center;
     min-height: calc(100vh - 10rem);
     min-height: calc(100svh - 10rem);
+    scroll-snap-align: start;
 }
 .grid{
     display: grid;
@@ -678,11 +691,57 @@ footer ul li a{
 }
 
 @media(min-width:1281px){
+    .experience,
+    .projects{
+        padding-block: 4.5rem;
+    }
+    .experience .grid{
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+    }
+    .experience .grid,
+    .education-grid{
+        width: 100%;
+        max-width: 72rem;
+        margin-inline: auto;
+    }
+    .experience .grid-card{
+        padding: 1.25rem;
+    }
+    .experience .grid-card i{
+        margin-bottom: 0.6rem;
+    }
+    .experience .grid-card span{
+        font-size: 1.3rem;
+    }
+    .experience .grid-card p{
+        margin-top: 0.5rem;
+    }
+    .experience .section-title,
+    .projects .section-title{
+        margin-bottom: 2.25rem;
+        font-size: 3.25rem;
+    }
+    .projects-grid{
+        width: 100%;
+        max-width: 72rem;
+        gap: 1rem;
+        margin: 0 auto;
+    }
     .project-card{
-        min-height: clamp(20rem, 30vh, 24rem);
+        min-height: clamp(20rem, 31vh, 24rem);
+        padding: 0 1.5rem 1.5rem;
     }
     .project-card img{
+        width: calc(100% + 3rem);
         height: clamp(12rem, 18vh, 15rem);
+        margin: 0 -1.5rem 0.85rem;
+    }
+    .project-card h3{
+        font-size: 1.4rem;
+    }
+    .project-card p{
+        margin-top: 0.5rem;
     }
 }
 
@@ -690,7 +749,7 @@ footer ul li a{
     html{
         scroll-snap-type: none;
     }
-    .next-section-btn{
+    .section-navigation{
         display: none;
     }
     .tile-hint{
