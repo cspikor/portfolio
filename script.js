@@ -7,7 +7,6 @@ const navLinks = document.querySelector('.nav-links');
 const siteFavicon = document.querySelector('#site-favicon');
 const themeBtn = document.querySelector('#theme-btn');
 const themeIcon = themeBtn.querySelector('i');
-const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
 
 const modal = document.querySelector('#modal');
 const closeBtn = document.querySelector('#close-btn');
@@ -20,12 +19,49 @@ const contactModal = document.querySelector('#contact-modal');
 const projectModal = document.querySelector('#project-modal');
 const projectTitle = document.querySelector('#project-title');
 const modalEmployer = document.querySelector('#modal-employer');
+const modalDate = document.querySelector('#modal-date');
 const projectDescription = document.querySelector('#project-description');
 const projectGallery = document.querySelector('#project-gallery');
 const projectHero = document.querySelector('#project-hero');
 const detailCards = document.querySelectorAll('.project-card, .grid-card');
+const skillFilters = document.querySelectorAll('[data-skill-filter]');
+const skillCards = document.querySelectorAll('[data-skill-category]');
 const pdfViewer = document.querySelector('#pdf-viewer');
 const resumeDownloadBtn = document.querySelector('#resume-download-btn');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const lenis = !prefersReducedMotion && window.Lenis
+    ? new window.Lenis({
+        lerp: 0.08,
+        smoothWheel: true,
+        wheelMultiplier: 0.9,
+        touchMultiplier: 1
+    })
+    : null;
+
+if(lenis){
+    const updateLenis = (time) => {
+        lenis.raf(time);
+        requestAnimationFrame(updateLenis);
+    };
+
+    requestAnimationFrame(updateLenis);
+}
+
+skillFilters.forEach((filter) => {
+    filter.addEventListener('click', () => {
+        const category = filter.dataset.skillFilter;
+
+        skillFilters.forEach((button) => {
+            const isActive = button === filter;
+            button.classList.toggle('active', isActive);
+            button.setAttribute('aria-selected', String(isActive));
+        });
+
+        skillCards.forEach((card) => {
+            card.classList.toggle('is-filtered-out', category !== 'all' && card.dataset.skillCategory !== category);
+        });
+    });
+});
 
 const popoutImageSources = new Set();
 detailCards.forEach((card) => {
@@ -98,7 +134,7 @@ async function animateThemeChange(isDark){
 }
 
 const savedTheme = localStorage.getItem('portfolio-theme');
-setTheme(savedTheme ? savedTheme === 'dark' : systemTheme.matches);
+setTheme(savedTheme ? savedTheme === 'dark' : true);
 
 menuIcon.onclick = () => {
     navLinks.classList.toggle('active');
@@ -116,20 +152,20 @@ themeBtn.onclick = () => {
     localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
 }
 
-systemTheme.addEventListener('change', (event) => {
-    if(!localStorage.getItem('portfolio-theme')){
-        setTheme(event.matches);
-    }
-});
 
 document.querySelectorAll('header a[href^="#"], .section-navigation a[href^="#"]').forEach((link) => {
     link.addEventListener('click', (event) => {
         const targetSelector = link.getAttribute('href');
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const scrollBehavior = prefersReducedMotion ? 'auto' : 'smooth';
 
         if(targetSelector === '#'){
             event.preventDefault();
-            window.scrollTo({top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth'});
+            if(lenis){
+                lenis.scrollTo(0, {immediate: prefersReducedMotion});
+            }
+            else{
+                window.scrollTo({top: 0, behavior: scrollBehavior});
+            }
             return;
         }
 
@@ -139,10 +175,19 @@ document.querySelectorAll('header a[href^="#"], .section-navigation a[href^="#"]
         }
 
         event.preventDefault();
-        target.scrollIntoView({
-            behavior: prefersReducedMotion ? 'auto' : 'smooth',
-            block: target.classList.contains('contact') ? 'start' : 'center'
-        });
+        const alignAtTop = target.id === 'experience' || target.id === 'projects';
+        if(lenis){
+            lenis.scrollTo(target, {
+                immediate: prefersReducedMotion,
+                offset: alignAtTop || target.classList.contains('contact') ? 0 : -(window.innerHeight - target.offsetHeight) / 2
+            });
+        }
+        else{
+            target.scrollIntoView({
+                behavior: scrollBehavior,
+                block: alignAtTop || target.classList.contains('contact') ? 'start' : 'center'
+            });
+        }
     });
 });
 
@@ -160,6 +205,7 @@ function openModal(page, isProject = false){
     page.classList.add('active');
     modal.classList.add('active');
     document.body.classList.add('modal-open');
+    lenis?.stop();
 
     if(page === resumeModal){
         modalContent.classList.add('resume-modal-content');
@@ -181,6 +227,7 @@ function closeModal(){
 
     modal.classList.add('closing');
     document.body.classList.remove('modal-open');
+    lenis?.start();
 
     window.setTimeout(() => {
         modal.classList.remove('active', 'closing');
@@ -242,6 +289,8 @@ detailCards.forEach((card) => {
         projectTitle.textContent = role;
         modalEmployer.textContent = '';
         modalEmployer.classList.remove('active');
+        modalDate.textContent = '';
+        modalDate.classList.remove('active');
 
         if(card.classList.contains('grid-card') && employer){
             modalEmployer.textContent = employer;
@@ -249,6 +298,13 @@ detailCards.forEach((card) => {
         }
         else if(card.classList.contains('project-card')){
             projectTitle.textContent = card.dataset.title;
+            modalEmployer.textContent = card.querySelector('.project-location')?.textContent || '';
+            modalEmployer.classList.toggle('active', Boolean(modalEmployer.textContent));
+        }
+
+        if(card.dataset.date){
+            modalDate.textContent = card.dataset.date;
+            modalDate.classList.add('active');
         }
         projectDescription.replaceChildren(
             ...card.dataset.details.split('|').map((detail) => {
@@ -328,8 +384,86 @@ window.addEventListener('resize', () => {
 const pageSections = [...document.querySelectorAll('body > section')];
 const sectionUpBtn = document.querySelector('#section-up-btn');
 const sectionDownBtn = document.querySelector('#section-down-btn');
+const timelines = document.querySelectorAll('.timeline');
+const projectsSection = document.querySelector('#projects');
+const projectsRail = document.querySelector('.projects-rail');
+let projectScrollTarget = 0;
+let projectScrollPosition = 0;
+let projectScrollFrame;
+
+function updateTimelines(){
+    timelines.forEach((timeline) => {
+        const timelineBounds = timeline.getBoundingClientRect();
+        const trackHeight = Math.max(timelineBounds.height, 1);
+        const progressTrigger = window.innerHeight * 0.55;
+        const viewportTrigger = window.innerHeight * 0.9;
+        const timelineItems = timeline.querySelectorAll('.timeline-item');
+        const lastTimelineItem = timelineItems[timelineItems.length - 1];
+        const timelineEnd = lastTimelineItem
+            ? lastTimelineItem.offsetTop + lastTimelineItem.offsetHeight / 2
+            : trackHeight;
+        const progress = Math.min(Math.max(progressTrigger - timelineBounds.top, 0), timelineEnd);
+
+        timeline.style.setProperty('--timeline-progress', `${progress}px`);
+        timeline.classList.toggle('is-visible', timelineBounds.top < window.innerHeight * 0.9 && timelineBounds.bottom > 0);
+
+        timeline.querySelectorAll('.timeline-item').forEach((item) => {
+            item.classList.toggle('is-active', item.getBoundingClientRect().top < viewportTrigger);
+        });
+    });
+}
+
+function updateProjectsScroll(){
+    if(!projectsSection || !projectsRail){
+        return;
+    }
+
+    if(window.innerWidth <= 900){
+        if(projectScrollFrame){
+            cancelAnimationFrame(projectScrollFrame);
+            projectScrollFrame = undefined;
+        }
+        projectsRail.style.transform = '';
+        projectScrollTarget = 0;
+        projectScrollPosition = 0;
+        return;
+    }
+
+    const bounds = projectsSection.getBoundingClientRect();
+    const scrollDistance = projectsSection.offsetHeight - window.innerHeight;
+    const progress = Math.min(Math.max(-bounds.top / scrollDistance, 0), 1);
+    const railBuffer = 0.12;
+    const railProgress = Math.min(Math.max((progress - railBuffer) / (1 - railBuffer * 2), 0), 1);
+    const railDistance = projectsRail.scrollWidth - projectsRail.clientWidth;
+
+    projectScrollTarget = railProgress * railDistance;
+
+    if(projectScrollFrame){
+        return;
+    }
+
+    const animateProjects = () => {
+        projectScrollPosition += (projectScrollTarget - projectScrollPosition) * 0.14;
+        projectsRail.style.transform = `translate3d(${-projectScrollPosition}px, 0, 0)`;
+
+        if(Math.abs(projectScrollTarget - projectScrollPosition) > 0.5){
+            projectScrollFrame = requestAnimationFrame(animateProjects);
+        }
+        else{
+            projectScrollPosition = projectScrollTarget;
+            projectsRail.style.transform = `translate3d(${-projectScrollPosition}px, 0, 0)`;
+            projectScrollFrame = undefined;
+        }
+    };
+
+    projectScrollFrame = requestAnimationFrame(animateProjects);
+}
 
 function updateSectionNavigation(){
+    if(!sectionUpBtn || !sectionDownBtn){
+        return;
+    }
+
     const currentSectionIndex = Math.max(
         pageSections.findLastIndex((section) => section.offsetTop <= window.scrollY + 1),
         0
@@ -351,6 +485,12 @@ function updateSectionNavigation(){
 
 window.addEventListener('scroll', () => {
     updateSectionNavigation();
+    updateTimelines();
+    updateProjectsScroll();
 }, {passive: true});
 
+window.addEventListener('resize', updateProjectsScroll);
+
 updateSectionNavigation();
+updateTimelines();
+updateProjectsScroll();

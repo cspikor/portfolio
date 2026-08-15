@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Christian Pikor</title>
-    <link rel="stylesheet" href="style.css?v=20260904">
+    <link rel="stylesheet" href="style.css?v=20260907">
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
     <link id="site-favicon" rel="icon" type="image/png" href="assets/images/logo/favicon-light.png?v=20260814">
 </head>
@@ -18,6 +18,7 @@
             <li><a href="#experience">Experience</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#education">Education</a></li>
+            <li><a href="#skills">Skills</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
 
@@ -29,14 +30,14 @@
 
     </header>
 
-    <nav class="section-navigation" aria-label="Section navigation">
+    <!-- <nav class="section-navigation" aria-label="Section navigation">
         <a id="section-up-btn" class="section-nav-btn previous-section-btn" href="#about" aria-label="Go to previous section" hidden>
             <i class="fa-solid fa-chevron-up"></i>
         </a>
         <a id="section-down-btn" class="section-nav-btn next-section-btn" href="#experience" aria-label="Go to next section" hidden>
             <i class="fa-solid fa-chevron-down"></i>
         </a>
-    </nav>
+    </nav> -->
 
     <section id="about" class="about">
         <div class="about-container">
@@ -64,92 +65,86 @@
 
     <section id="experience" class="experience">
         <h2 class="section-title">Experience</h2>
-        <p class="tile-hint">Click tile to see more</p>
+        <p class="tile-hint">Click to see more</p>
 
-        <div class="experience-info">
-            <div class="grid">
-                <div class="grid-card" data-title="Research Assistant | UBC Combustion Simulation Lab" data-hero="assets/images/experience/reesearch-CFD.png" data-details="Working with Dr. Kendal Bushe at UBC's Combustion Simulation Lab.|Studying numerical simulation of reacting flows using OpenFOAM and in-house models.">
+        <div class="experience-info timeline" aria-label="Professional experience timeline">
+            <span class="timeline-progress-dot" aria-hidden="true"></span>
+            <div class="grid timeline-items">
+                <div class="timeline-item"><div class="grid-card" data-title="Research Assistant | UBC Combustion Simulation Lab" data-date="2025/09 - Present" data-hero="assets/images/experience/reesearch-CFD.png" data-details="Working with Dr. Kendal Bushe at UBC's Combustion Simulation Lab.|Studying numerical simulation of reacting flows using OpenFOAM and in-house models.">
                     <i class="fa-solid fa-book"></i>
                     <span>Research Assistant</span>
                     <div class="employer">UBC Combustion Simulation Lab</div>
-                    <h3>2026/05 - 2026/08</h3>
+                    <h3>2026</h3>
                     <p>Studying numerical simulations of reacting flows using OpenFOAM.</p>
-                </div>
+                </div></div>
 
-                <div class="grid-card" data-title="Research Student | University of British Columbia" data-hero="assets/images/experience/research-impinge.png" data-details="Researched non-Newtonian liquid-jet impingement on moving surfaces with Dr. Sheldon Green.|Repaired and operated the test apparatus, ran experiments, analyzed data, and presented results.">
+                <div class="timeline-item"><div class="grid-card" data-title="Research Assistant | University of British Columbia" data-date="2025/05 - 2025/08" data-hero="assets/images/experience/research-impinge.png" data-details="Researched non-Newtonian liquid-jet impingement on moving surfaces with Dr. Sheldon Green.|Repaired and operated the test apparatus, ran experiments, analyzed data, and presented results.">
                     <i class="fa-solid fa-book"></i>
                     <span>Research Assistant</span>
                     <div class="employer">University of British Columbia</div>
-                    <h3>2025/05 - 2025/08</h3>
+                    <h3>2025</h3>
                     <p>Studied non-Newtonian jet impingement through experiments and data analysis.</p>
-                </div>
+                </div></div>
 
-                <div class="grid-card" data-title="Manufacturing Engineering Intern | Tesla" data-hero="assets/images/experience/tesla.png" data-details="Designed and supported installation of safety fixtures and hardware for a newly built Gigafactory 1 manufacturing line.|Collaborated with vendors to purchase and procure components.">
+                <div class="timeline-item"><div class="grid-card" data-title="Manufacturing Engineering Intern | Tesla" data-date="2025/01 - 2025/05" data-hero="assets/images/experience/tesla.png" data-details="Designed and supported installation of safety fixtures and hardware for a newly built Gigafactory 1 manufacturing line.|Collaborated with vendors to purchase and procure components.">
                     <i class="fa-brands fa-tesla"></i>
                     <span>Manufacturing Engineering Intern</span>
                     <div class="employer">Tesla</div>
-                    <h3>2025/01 - 2025/05</h3>
+                    <h3>2025</h3>
                     <p>Designed safety fixtures and coordinated component procurement for Gigafactory 1.</p>
-                </div>
+                </div></div>
 
-                <div class="grid-card" data-title="Advanced Fuselage Lead | UBC SAE Aerodesign" data-hero="assets/images/experience/aerodesign.png" data-details="Led a 10-person Advanced Fuselage subteam for UBC SAE Aerodesign.|Directed fuselage design using CAD and computational analysis.|Manufactured aircraft components using composite layups, 3D printing, sheet metal, waterjet and laser cutting, and aluminum machining.">
+                <div class="timeline-item"><div class="grid-card" data-title="Advanced Fuselage Lead | UBC SAE Aerodesign" data-date="2022/08 - 2025/05" data-hero="assets/images/experience/aerodesign.png" data-details="Led a 10-person Advanced Fuselage subteam for UBC SAE Aerodesign.|Directed fuselage design using CAD and computational analysis.|Manufactured aircraft components using composite layups, 3D printing, sheet metal, waterjet and laser cutting, and aluminum machining.">
                     <i class="fa-solid fa-plane"></i>
                     <span>Advanced Fuselage Lead</span>
                     <div class="employer">UBC SAE Aerodesign</div>
-                    <h3>2022/08 - 2025/05</h3>
+                    <h3>2025</h3>
                     <p>Led fuselage design, analysis, and hands-on aircraft component manufacturing.</p>
-                </div>
+                </div></div>
 
-                <div class="grid-card" data-title="Project Management Intern | Canadian Space Agency" data-hero="assets/images/experience/CSA.png" data-details="Contributed to the Canadarm3 Project Management Team for NASA's Lunar Gateway program alongside international agencies and MDA Space.|Improved finance and document-management workflows with Power BI, Power Query, and Excel VBA.|Won the intern poster competition among approximately 20 teams.">
+                <div class="timeline-item"><div class="grid-card" data-title="Project Management Intern | Canadian Space Agency" data-date="2024/05 - 2024/08" data-hero="assets/images/experience/CSA.png" data-details="Contributed to the Canadarm3 Project Management Team for NASA's Lunar Gateway program alongside international agencies and MDA Space.|Improved finance and document-management workflows with Power BI, Power Query, and Excel VBA.|Won the intern poster competition among approximately 20 teams.">
                     <i class="fa-solid fa-shuttle-space"></i>
                     <span>Project Management Intern</span>
                     <div class="employer">Canadian Space Agency</div>
-                    <h3>2024/05 - 2024/08</h3>
+                    <h3>2024</h3>
                     <p>Supported Canadarm3 project management and improved data workflows.</p>
-                </div>
+                </div></div>
 
-                <div class="grid-card" data-title="Project Coordinator | Modern Niagara" data-details="Worked with engineering management and trades on the New St. Paul's Hospital construction project, supporting progress, budget, data analysis, and scheduling.|Developed an interactive Power BI dashboard to track installation progress throughout the building.">
+                <div class="timeline-item"><div class="grid-card" data-title="Project Coordinator | Modern Niagara" data-date="2023/05 - 2023/12" data-details="Worked with engineering management and trades on the New St. Paul's Hospital construction project, supporting progress, budget, data analysis, and scheduling.|Developed an interactive Power BI dashboard to track installation progress throughout the building.">
                     <i class="fa-solid fa-helmet-safety"></i>
                     <span>Project Coordinator</span>
                     <div class="employer">Modern Niagara</div>
-                    <h3>2023/05 - 2023/12</h3>
+                    <h3>2023</h3>
                     <p>Supported hospital construction delivery and built an installation-progress dashboard.</p>
-                </div>
+                </div></div>
             </div>
         </div>
     </section>
 
     <section id="projects" class="projects">
-        <h2 class="section-title">Projects</h2>
-        <p class="tile-hint">Click tile to see more</p>
-
-        <div class="projects-grid">
-            <div class="project-card" data-title="Lunar Rover Ski Braking System" data-details="Led a five-person mechanical engineering team.|Developed and built a ski braking system for the Canadian Space Agency's CRATER Lunar Rover capstone project." data-photos="assets/images/projects/project-1/project-1-photo-1.png|assets/images/projects/project-1/project-1-photo-2.gif" data-captions="Full rover prototype|Braking engagement test">
+        <div class="projects-sticky">
+            <h2 class="section-title">Projects</h2>
+            <p class="tile-hint">Click to see more</p>
+            <div class="projects-grid projects-rail" aria-label="Projects carousel">
+            <div class="project-card" data-title="Lunar Rover Ski Braking System" data-date="2025/08 - 2026/04" data-details="Led a five-person mechanical engineering team.|Developed and built a ski braking system for the Canadian Space Agency's CRATER Lunar Rover capstone project." data-photos="assets/images/projects/project-1/project-1-photo-1.png|assets/images/projects/project-1/project-1-photo-2.gif" data-captions="Full rover prototype|Braking engagement test">
+                <div class="project-info"><div class="project-title"><span>01</span><div><h3>Lunar Rover Ski Braking System</h3><p class="project-location">UBC + Canadian Space Agency</p></div></div><p>Led a five-person team developing a braking system for the CRATER Lunar Rover.</p></div>
                 <img src="assets/images/projects/project-1/project-1.png" alt="Lunar Rover Ski Braking System">
-                <h3>Lunar Rover Ski Braking System</h3>
-                <div class="project-location">UBC + Canadian Space Agency</div>
-                <p>Led a five-person team developing a braking system for the CRATER Lunar Rover.</p>
             </div>
 
-            <div class="project-card" data-title="Fuselage Design" data-details="Led the design of the Advanced Class Fuselage, including the structure, landing gear, empennage, and integration with subsystems and other subteams.|Personally responsible for high-level fuselage systems design.|Oversaw lower-level design work for approximately 10 team members." data-photos="assets/images/projects/project-2/project-2-photo-1.png|assets/images/projects/project-2/project-2-photo-2.png" data-captions="Aircraft in flight|Fuselage breakdown">
+            <div class="project-card" data-title="Fuselage Design" data-date="2022/08 - 2025/05" data-details="Led the design of the Advanced Class Fuselage, including the structure, landing gear, empennage, and integration with subsystems and other subteams.|Personally responsible for high-level fuselage systems design.|Oversaw lower-level design work for approximately 10 team members." data-photos="assets/images/projects/project-2/project-2-photo-1.png|assets/images/projects/project-2/project-2-photo-2.png" data-captions="Aircraft in flight|Fuselage breakdown">
+                <div class="project-info"><div class="project-title"><span>02</span><div><h3>Fuselage Design</h3><p class="project-location">UBC Aerodesign</p></div></div><p>Led Advanced Class fuselage design and guided a 10-person team.</p></div>
                 <img src="assets/images/projects/project-2/project-2.png" alt="UBC Aerodesign Fuselage Design">
-                <h3>Fuselage Design</h3>
-                <div class="project-location">UBC Aerodesign</div>
-                <p>Led Advanced Class fuselage design and guided a 10-person team.</p>
             </div>
 
-            <div class="project-card" data-title="Titan Endurance Project" data-details="Led a six-person team to build a launcher and buggy system for UBC's MECH 223 course under strict budget and schedule constraints.|Integrated an Arduino, accelerometer, servo, and mechanical components to launch a payload toward a target while moving.|Built MATLAB simulations to optimize payload speed and trajectory." data-photos="assets/images/projects/project-3/project-3-photo-1.png|assets/images/projects/project-3/project-3-photo-2.png" data-captions="Buggy prototype|Competition platform">
+            <div class="project-card" data-title="Titan Endurance Project" data-date="2023/01 - 2023/04" data-details="Led a six-person team to build a launcher and buggy system for UBC's MECH 223 course under strict budget and schedule constraints.|Integrated an Arduino, accelerometer, servo, and mechanical components to launch a payload toward a target while moving.|Built MATLAB simulations to optimize payload speed and trajectory." data-photos="assets/images/projects/project-3/project-3-photo-1.png|assets/images/projects/project-3/project-3-photo-2.png" data-captions="Buggy prototype|Competition platform">
+                <div class="project-info"><div class="project-title"><span>03</span><div><h3>Titan Endurance Project</h3><p class="project-location">UBC</p></div></div><p>Led a team building a moving launcher and buggy system for MECH 223.</p></div>
                 <img src="assets/images/projects/project-3/project-3.png" alt="Titan Endurance Rover">
-                <h3>Titan Endurance Project</h3>
-                <div class="project-location">UBC</div>
-                <p>Led a team building a moving launcher and buggy system for MECH 223.</p>
             </div>
 
-            <div class="project-card" data-title="Atmospheric Monitoring" data-details="Led development of a wireless, drone-mounted air-quality monitoring system that streamed telemetry to a ground receiver.|Designed and assembled the structure and wired the electrical sensor system.|Integrated wireless transceivers with an Arduino to achieve less than 1% data loss." data-photos="assets/images/projects/project-4/project-4-photo-1.png|assets/images/projects/project-4/project-4-photo-2.png" data-captions="Sensor housing CAD|Live data stream">
+            <div class="project-card" data-title="Atmospheric Monitoring" data-date="2022/01 - 2022/05" data-details="Led development of a wireless, drone-mounted air-quality monitoring system that streamed telemetry to a ground receiver.|Designed and assembled the structure and wired the electrical sensor system.|Integrated wireless transceivers with an Arduino to achieve less than 1% data loss." data-photos="assets/images/projects/project-4/project-4-photo-1.png|assets/images/projects/project-4/project-4-photo-2.png" data-captions="Sensor housing CAD|Live data stream">
+                <div class="project-info"><div class="project-title"><span>04</span><div><h3>Atmospheric Monitoring</h3><p class="project-location">Capilano University</p></div></div><p>Built a drone-mounted air-quality monitoring system with live wireless telemetry.</p></div>
                 <img src="assets/images/projects/project-4/project-4.png" alt="Atmospheric Monitoring project">
-                <h3>Atmospheric Monitoring</h3>
-                <div class="project-location">Capilano University</div>
-                <p>Built a drone-mounted air-quality monitoring system with live wireless telemetry.</p>
+            </div>
             </div>
         </div>
     </section>
@@ -184,6 +179,47 @@
 
     </section>
 
+    <section id="skills" class="skills">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="skills-filters" role="tablist" aria-label="Skill category">
+            <button class="skill-filter active" type="button" role="tab" aria-selected="true" data-skill-filter="all">All</button>
+            <button class="skill-filter" type="button" role="tab" aria-selected="false" data-skill-filter="mechanical">Mechanical</button>
+            <button class="skill-filter" type="button" role="tab" aria-selected="false" data-skill-filter="software">Software</button>
+            <button class="skill-filter" type="button" role="tab" aria-selected="false" data-skill-filter="management">Project Management</button>
+        </div>
+        <div class="skills-grid">
+            <article class="skill-card" data-skill-category="mechanical"><i class="fa-solid fa-screwdriver-wrench"></i><span>Machining</span></article>
+            <article class="skill-card" data-skill-category="mechanical"><i class="fa-solid fa-cube"></i><span>3D Printing</span></article>
+            <article class="skill-card" data-skill-category="mechanical"><i class="fa-solid fa-scissors"></i><span>Waterjet &amp; Laser Cutting</span></article>
+            <article class="skill-card" data-skill-category="mechanical"><i class="fa-solid fa-layer-group"></i><span>Composite Manufacturing</span></article>
+            <article class="skill-card" data-skill-category="mechanical"><i class="fa-solid fa-pen-ruler"></i><span>Engineering Drawings</span></article>
+            <article class="skill-card" data-skill-category="mechanical"><i class="fa-solid fa-ruler-combined"></i><span>DFM / DFA</span></article>
+
+            <article class="skill-card" data-skill-category="software"><span class="skill-logo" style="--skill-logo: url('assets/images/skills/autocad.svg')"></span><span>AutoCAD</span></article>
+            <article class="skill-card" data-skill-category="software"><span class="skill-logo" style="--skill-logo: url('assets/images/skills/dassault-systemes.svg')"></span><span>SolidWorks</span></article>
+            <article class="skill-card" data-skill-category="software"><i class="fa-solid fa-chart-line"></i><span>FEA</span></article>
+            <article class="skill-card" data-skill-category="software"><i class="fa-solid fa-wind"></i><span>CFD</span></article>
+            <article class="skill-card" data-skill-category="software"><i class="fa-solid fa-file-excel"></i><span>Excel</span></article>
+            <article class="skill-card" data-skill-category="software"><i class="fa-solid fa-code"></i><span>VBA</span></article>
+            <article class="skill-card" data-skill-category="software"><span class="skill-logo" style="--skill-logo: url('assets/images/skills/power-bi.svg')"></span><span>Power BI</span></article>
+            <article class="skill-card" data-skill-category="software"><i class="fa-solid fa-table-columns"></i><span>Power Query</span></article>
+            <article class="skill-card" data-skill-category="software"><span class="skill-logo" style="--skill-logo: url('assets/images/skills/c.svg')"></span><span>C</span></article>
+            <article class="skill-card" data-skill-category="software"><span class="skill-logo" style="--skill-logo: url('assets/images/skills/csharp.svg')"></span><span>C#</span></article>
+            <article class="skill-card" data-skill-category="software"><span class="skill-logo" style="--skill-logo: url('assets/images/skills/cpp.svg')"></span><span>C++</span></article>
+            <article class="skill-card" data-skill-category="software"><span class="skill-logo" style="--skill-logo: url('assets/images/skills/python.svg')"></span><span>Python</span></article>
+            <article class="skill-card" data-skill-category="software"><span class="skill-logo" style="--skill-logo: url('assets/images/skills/matlab.svg')"></span><span>MATLAB</span></article>
+            <article class="skill-card" data-skill-category="software"><span class="skill-logo" style="--skill-logo: url('assets/images/skills/ansys.svg')"></span><span>ANSYS Fluent</span></article>
+            <article class="skill-card" data-skill-category="software"><span class="skill-logo" style="--skill-logo: url('assets/images/skills/dassault-systemes.svg')"></span><span>ABAQUS</span></article>
+            <article class="skill-card" data-skill-category="software"><span class="skill-logo skill-logo-nabla" aria-hidden="true">∇</span><span>OpenFOAM</span></article>
+
+            <article class="skill-card" data-skill-category="management"><i class="fa-solid fa-calendar-days"></i><span>Scheduling</span></article>
+            <article class="skill-card" data-skill-category="management"><i class="fa-solid fa-sack-dollar"></i><span>Budget Estimating</span></article>
+            <article class="skill-card" data-skill-category="management"><i class="fa-solid fa-folder-open"></i><span>Documentation</span></article>
+            <article class="skill-card" data-skill-category="management"><i class="fa-solid fa-file-lines"></i><span>Technical Writing</span></article>
+            <article class="skill-card" data-skill-category="management"><i class="fa-solid fa-building"></i><span>HVAC &amp; Plumbing Systems</span></article>
+        </div>
+    </section>
+
     <section class="contact" id="contact">
         <div class="input-box">
             <h2 class="section-title">Contact Me</h2>
@@ -213,13 +249,14 @@
             <li><a href="#experience">Experience</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#education">Education</a></li>
+            <li><a href="#skills">Skills</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
 
         <p class="copyright">© All Rights Reserved | Christian Pikor</p>
     </footer>
 
-    <div class="modal" id="modal">
+    <div class="modal" id="modal" data-lenis-prevent>
         <div class="modal-content">
             <button class="close-btn" id="close-btn" aria-label="Close popout">
                 <i class="fa-solid fa-xmark"></i>
@@ -259,12 +296,14 @@
                 <div class="project-hero" id="project-hero"></div>
                 <h2 id="project-title"></h2>
                 <p class="modal-employer" id="modal-employer"></p>
+                <p class="modal-date" id="modal-date"></p>
                 <ul class="detail-list" id="project-description"></ul>
                 <div class="project-gallery" id="project-gallery"></div>
             </div>
         </div>
     </div>
 
-    <script type="module" src="script.js?v=20260877"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script type="module" src="script.js?v=20260907"></script>
 </body>
 </html>
