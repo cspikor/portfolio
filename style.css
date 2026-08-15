@@ -1282,6 +1282,10 @@ footer ul li a{
 }
 
 @media(max-width: 900px){
+    .education-section{
+        justify-content: flex-start;
+        padding-top: 9rem;
+    }
     .skills-filters{
         flex-wrap: wrap;
         max-width: calc(100% - 1rem);
