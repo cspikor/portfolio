@@ -122,7 +122,7 @@ systemTheme.addEventListener('change', (event) => {
     }
 });
 
-document.querySelectorAll('header a[href^="#"]').forEach((link) => {
+document.querySelectorAll('header a[href^="#"], .section-navigation a[href^="#"]').forEach((link) => {
     link.addEventListener('click', (event) => {
         const targetSelector = link.getAttribute('href');
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
