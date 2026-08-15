@@ -175,17 +175,16 @@ document.querySelectorAll('header a[href^="#"], .section-navigation a[href^="#"]
         }
 
         event.preventDefault();
-        const alignAtTop = target.id === 'experience' || target.id === 'projects';
         if(lenis){
             lenis.scrollTo(target, {
                 immediate: prefersReducedMotion,
-                offset: alignAtTop || target.classList.contains('contact') ? 0 : -(window.innerHeight - target.offsetHeight) / 2
+                offset: 0
             });
         }
         else{
             target.scrollIntoView({
                 behavior: scrollBehavior,
-                block: alignAtTop || target.classList.contains('contact') ? 'start' : 'center'
+                block: 'start'
             });
         }
     });

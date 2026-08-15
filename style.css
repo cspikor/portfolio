@@ -869,8 +869,9 @@ footer ul li a{
         scroll-snap-type: none;
     }
     .contact{
-        min-height: auto;
-        padding-bottom: 3rem;
+        min-height: 100vh;
+        min-height: 100svh;
+        padding-bottom: 6rem;
     }
     footer{
         min-height: auto;
