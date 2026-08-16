@@ -1442,7 +1442,7 @@ footer ul li a{
         padding: 2rem 0;
         gap: 1.5rem;
         border: 0;
-        border-top: 2px solid var(--border);
+        border-top: 0;
         border-bottom: 0;
         border-radius: 0;
         background: transparent;
@@ -1450,20 +1450,33 @@ footer ul li a{
         min-width: 0;
     }
     .projects-rail .project-card:last-child{
-        border-bottom: 2px solid var(--border);
+        border-bottom: 0;
+    }
+    .projects-rail .project-card::before,
+    .projects-rail .project-card:last-child::after{
+        position: absolute;
+        left: 50%;
+        width: 100vw;
+        height: 2px;
+        content: "";
+        background: var(--border);
+        transform: translateX(-50%);
+    }
+    .projects-rail .project-card::before{
+        top: 0;
+    }
+    .projects-rail .project-card:last-child::after{
+        bottom: 0;
     }
     .projects-rail .project-card:hover,
     .projects-rail .project-card:last-child:hover{
         border: 0;
-        border-top: 2px solid var(--accent);
-        border-bottom: 0;
         box-shadow: none;
     }
-    .projects-rail .project-card:last-child:hover{
-        border-bottom: 2px solid var(--accent);
-    }
-    .projects-rail .project-card:hover + .project-card{
-        border-top-color: var(--accent);
+    .projects-rail .project-card:hover::before,
+    .projects-rail .project-card:hover + .project-card::before,
+    .projects-rail .project-card:last-child:hover::after{
+        background: var(--accent);
     }
     .project-info,
     .project-title,
