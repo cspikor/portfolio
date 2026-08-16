@@ -120,11 +120,6 @@ html.dark-mode .starfield{
         background-size: clamp(14.5rem, calc(11.75rem + 7.35vw), 17rem) clamp(14.5rem, calc(11.75rem + 7.35vw), 17rem), clamp(19.5rem, calc(10.4rem + 5.1vw), 23rem) clamp(19.5rem, calc(10.4rem + 5.1vw), 23rem), clamp(24.5rem, calc(19.8rem + 6.55vw), 29rem) clamp(24.5rem, calc(19.8rem + 6.55vw), 29rem), clamp(31.5rem, calc(25.75rem + 8vw), 37rem) clamp(31.5rem, calc(25.75rem + 8vw), 37rem), clamp(36.5rem, calc(29.7rem + 9.45vw), 43rem) clamp(36.5rem, calc(29.7rem + 9.45vw), 43rem), clamp(16rem, calc(12.9rem + 4.36vw), 19rem) clamp(16rem, calc(12.9rem + 4.36vw), 19rem), clamp(28rem, calc(22.78rem + 7.27vw), 33rem) clamp(28rem, calc(22.78rem + 7.27vw), 33rem), clamp(23rem, calc(18.8rem + 5.82vw), 27rem) clamp(23rem, calc(18.8rem + 5.82vw), 27rem), clamp(40rem, calc(32.7rem + 10.18vw), 47rem) clamp(40rem, calc(32.7rem + 10.18vw), 47rem);
     }
 }
-body > section,
-body > footer{
-    position: relative;
-    z-index: 1;
-}
 header{
     position: fixed;
     top: 1rem;
