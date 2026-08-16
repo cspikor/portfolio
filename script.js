@@ -29,6 +29,7 @@ const skillCards = document.querySelectorAll('[data-skill-category]');
 const pdfViewer = document.querySelector('#pdf-viewer');
 const resumeDownloadBtn = document.querySelector('#resume-download-btn');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let sectionJumpTimeout;
 const lenis = !prefersReducedMotion && window.Lenis
     ? new window.Lenis({
         lerp: 0.08,
@@ -153,19 +154,33 @@ themeBtn.onclick = () => {
 }
 
 
+function fadeInSection(section){
+    if(prefersReducedMotion || !section){
+        return;
+    }
+
+    section.classList.remove('section-jump-in');
+    void section.offsetWidth;
+    section.classList.add('section-jump-in');
+    window.clearTimeout(sectionJumpTimeout);
+    sectionJumpTimeout = window.setTimeout(() => {
+        section.classList.remove('section-jump-in');
+    }, 500);
+}
+
 document.querySelectorAll('header a[href^="#"], .section-navigation a[href^="#"]').forEach((link) => {
     link.addEventListener('click', (event) => {
         const targetSelector = link.getAttribute('href');
-        const scrollBehavior = prefersReducedMotion ? 'auto' : 'smooth';
 
         if(targetSelector === '#'){
             event.preventDefault();
             if(lenis){
-                lenis.scrollTo(0, {immediate: prefersReducedMotion});
+                lenis.scrollTo(0, {immediate: true});
             }
             else{
-                window.scrollTo({top: 0, behavior: scrollBehavior});
+                window.scrollTo({top: 0, behavior: 'auto'});
             }
+            fadeInSection(document.querySelector('#about'));
             return;
         }
 
@@ -177,16 +192,18 @@ document.querySelectorAll('header a[href^="#"], .section-navigation a[href^="#"]
         event.preventDefault();
         if(lenis){
             lenis.scrollTo(target, {
-                immediate: prefersReducedMotion,
+                immediate: true,
                 offset: 0
             });
         }
         else{
             target.scrollIntoView({
-                behavior: scrollBehavior,
+                behavior: 'auto',
                 block: 'start'
             });
         }
+
+        fadeInSection(target);
     });
 });
 
