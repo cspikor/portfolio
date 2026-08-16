@@ -72,7 +72,10 @@ html.dark-mode .starfield{
 }
 .starfield::before{
     position: absolute;
-    inset: -50vmax;
+    top: 50%;
+    left: 50%;
+    width: 200vmax;
+    height: 200vmax;
     content: "";
     background-image:
         radial-gradient(circle at 9% 14%, var(--star-colour) 0 1.15px, transparent 1.9px),
@@ -87,21 +90,18 @@ html.dark-mode .starfield{
     background-size: 17rem 19rem, 23rem 31rem, 29rem 37rem, 37rem 43rem, 43rem 53rem, 19rem 27rem, 33rem 41rem, 27rem 35rem, 47rem 59rem;
     background-position: 7% 13%, 83% 61%, 29% 87%, 71% 19%, 43% 52%, 92% 34%, 16% 76%, 58% 8%, 37% 94%;
     opacity: 0.78;
-    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(0deg);
+    transform-origin: 50% 50%;
     animation: starfield-rotate 180s linear infinite;
 }
 @supports (width: 1lvmax){
     .starfield::before{
-        /* Keep the rotating square centred on the viewport, not a vmax corner. */
-        top: calc(50% - 100lvmax);
-        left: calc(50% - 100lvmax);
         width: 200lvmax;
         height: 200lvmax;
-        inset: auto;
     }
 }
 @keyframes starfield-rotate{
-    to{ transform: rotate(360deg); }
+    to{ transform: translate(-50%, -50%) rotate(360deg); }
 }
 @media(prefers-reduced-motion: reduce){
     .starfield::before{
