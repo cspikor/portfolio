@@ -33,7 +33,6 @@ html{
     scroll-behavior: smooth;
     scroll-snap-type: none;
     overscroll-behavior-y: none;
-    overflow-x: hidden;
     scrollbar-width: none;
 }
 html::-webkit-scrollbar{
@@ -54,7 +53,6 @@ body{
     color: var(--text);
     transition: 0.3s ease-in-out;
     overscroll-behavior-y: none;
-    overflow-x: hidden;
 }
 body.modal-open{
     overflow: hidden;
@@ -64,9 +62,6 @@ body.modal-open{
     z-index: 0;
     display: block;
     inset: 0;
-    overflow: hidden;
-    contain: paint;
-    transform: translateZ(0);
     pointer-events: none;
 }
 html:not(.dark-mode) .starfield{
@@ -77,10 +72,7 @@ html.dark-mode .starfield{
 }
 .starfield::before{
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+    inset: -50vmax;
     content: "";
     background-image:
         radial-gradient(circle at 9% 14%, var(--star-colour) 0 1.15px, transparent 1.9px),
@@ -96,16 +88,7 @@ html.dark-mode .starfield{
     background-position: 7% 13%, 83% 61%, 29% 87%, 71% 19%, 43% 52%, 92% 34%, 16% 76%, 58% 8%, 37% 94%;
     opacity: 0.78;
     transform-origin: center;
-    will-change: transform;
     animation: starfield-rotate 180s linear infinite;
-}
-@supports (width: 1lvmax){
-    .starfield::before{
-        top: -50lvmax;
-        left: -50lvmax;
-        width: 200lvmax;
-        height: 200lvmax;
-    }
 }
 @keyframes starfield-rotate{
     to{ transform: rotate(360deg); }
