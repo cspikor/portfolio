@@ -6,7 +6,7 @@
     --border: #ded9d0;
     --accent: #c7a47e;
     --accent-hover: #d7bb9c;
-    --header-background: rgba(247, 246, 242, 0.88);
+    --header-background: #f7f6f2;
 }
 
 html.dark-mode,
@@ -18,7 +18,7 @@ body.dark-mode{
     --border: #4a4640;
     --accent: #c7a47e;
     --accent-hover: #d7bb9c;
-    --header-background: rgba(31, 30, 27, 0.88);
+    --header-background: #1f1e1b;
 }
 
 *{
@@ -830,6 +830,7 @@ body.dark-mode .resume-modal-content .pdf-viewer{
 }
 
 footer{
+    position: relative;
     bottom: 0;
     left: 0;
     min-height: 10rem;
@@ -839,7 +840,9 @@ footer{
     gap: 1rem;
     align-items: center;
     justify-content: center;
+    background-color: var(--header-background);
     border-top: 1px solid var(--border);
+    z-index: 1;
 }
 footer ul{
     display: flex;
