@@ -92,8 +92,9 @@ html.dark-mode .starfield{
 }
 @supports (width: 1lvmax){
     .starfield::before{
-        top: -50lvmax;
-        left: -50lvmax;
+        /* Keep the rotating square centred on the viewport, not a vmax corner. */
+        top: calc(50% - 100lvmax);
+        left: calc(50% - 100lvmax);
         width: 200lvmax;
         height: 200lvmax;
         inset: auto;
