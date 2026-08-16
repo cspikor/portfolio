@@ -9,6 +9,7 @@
     --header-background: rgba(247, 246, 242, 0.88);
 }
 
+html.dark-mode,
 body.dark-mode{
     --background: #1f1e1b;
     --surface: #2a2825;
@@ -68,10 +69,10 @@ body.modal-open{
     transform: translateZ(0);
     pointer-events: none;
 }
-body:not(.dark-mode) .starfield{
+html:not(.dark-mode) .starfield{
     --star-colour: rgba(31, 30, 27, 0.54);
 }
-body.dark-mode .starfield{
+html.dark-mode .starfield{
     --star-colour: rgba(245, 241, 233, 0.54);
 }
 .starfield::before{

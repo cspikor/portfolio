@@ -90,6 +90,7 @@ function getResumePath(){
 }
 
 function setTheme(isDark){
+    document.documentElement.classList.toggle('dark-mode', isDark);
     document.body.classList.toggle('dark-mode', isDark);
     siteFavicon.href = isDark
         ? 'assets/images/logo/favicon-dark.png?v=20260814'

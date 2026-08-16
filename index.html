@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Christian Pikor</title>
-    <link rel="stylesheet" href="style.css?v=20260933">
+    <script>
+        try {
+            if (localStorage.getItem('portfolio-theme') !== 'light') {
+                document.documentElement.classList.add('dark-mode');
+            }
+        } catch (error) {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+    <link rel="stylesheet" href="style.css?v=20260934">
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
     <link id="site-favicon" rel="icon" type="image/png" href="assets/images/logo/favicon-light.png?v=20260814">
 </head>
@@ -305,6 +314,6 @@
     </div>
 
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
-    <script type="module" src="script.js?v=20260927"></script>
+    <script type="module" src="script.js?v=20260934"></script>
 </body>
 </html>
