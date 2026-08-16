@@ -90,6 +90,15 @@ html.dark-mode .starfield{
     transform-origin: center;
     animation: starfield-rotate 180s linear infinite;
 }
+@supports (width: 1lvmax){
+    .starfield::before{
+        top: -50lvmax;
+        left: -50lvmax;
+        width: 200lvmax;
+        height: 200lvmax;
+        inset: auto;
+    }
+}
 @keyframes starfield-rotate{
     to{ transform: rotate(360deg); }
 }
