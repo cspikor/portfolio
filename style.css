@@ -96,6 +96,19 @@ body.dark-mode .starfield{
         animation: none;
     }
 }
+@media(max-width: 1150px){
+    .starfield::before{
+        background-image:
+            radial-gradient(circle at 9% 14%, var(--star-colour) 0 1.15px, transparent 1.9px),
+            radial-gradient(circle at 31% 73%, var(--star-colour) 0 0.65px, transparent 1.3px),
+            radial-gradient(circle at 68% 22%, var(--star-colour) 0 1px, transparent 1.7px),
+            radial-gradient(circle at 84% 79%, var(--star-colour) 0 0.75px, transparent 1.35px),
+            radial-gradient(circle at 47% 46%, var(--star-colour) 0 1.25px, transparent 2px),
+            radial-gradient(circle at 14% 58%, var(--star-colour) 0 0.6px, transparent 1.2px),
+            radial-gradient(circle at 73% 91%, var(--star-colour) 0 0.9px, transparent 1.5px);
+        background-size: 17rem 17rem, 23rem 23rem, 29rem 29rem, 37rem 37rem, 43rem 43rem, 19rem 19rem, 33rem 33rem;
+    }
+}
 body > section,
 body > footer{
     position: relative;
