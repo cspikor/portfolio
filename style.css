@@ -91,11 +91,20 @@ body.dark-mode .starfield{
         radial-gradient(circle at 73% 91%, var(--star-colour) 0 0.9px, transparent 1.5px),
         radial-gradient(circle at 57% 34%, var(--star-colour) 0 0.7px, transparent 1.3px),
         radial-gradient(circle at 22% 86%, var(--star-colour) 0 1.05px, transparent 1.75px);
-    background-size: 17rem 17rem, 23rem 23rem, 29rem 29rem, 37rem 37rem, 43rem 43rem, 19rem 19rem, 33rem 33rem, 27rem 27rem, 47rem 47rem;
+    background-size: 17rem 19rem, 23rem 31rem, 29rem 37rem, 37rem 43rem, 43rem 53rem, 19rem 27rem, 33rem 41rem, 27rem 35rem, 47rem 59rem;
+    background-position: 7% 13%, 83% 61%, 29% 87%, 71% 19%, 43% 52%, 92% 34%, 16% 76%, 58% 8%, 37% 94%;
     opacity: 0.78;
     transform-origin: center;
     will-change: transform;
     animation: starfield-rotate 180s linear infinite;
+}
+@supports (width: 1lvmax){
+    .starfield::before{
+        top: -50lvmax;
+        left: -50lvmax;
+        width: 200lvmax;
+        height: 200lvmax;
+    }
 }
 @keyframes starfield-rotate{
     to{ transform: rotate(360deg); }
@@ -107,15 +116,7 @@ body.dark-mode .starfield{
 }
 @media(max-width: 1150px){
     .starfield::before{
-        background-image:
-            radial-gradient(circle at 9% 14%, var(--star-colour) 0 1.15px, transparent 1.9px),
-            radial-gradient(circle at 31% 73%, var(--star-colour) 0 0.65px, transparent 1.3px),
-            radial-gradient(circle at 68% 22%, var(--star-colour) 0 1px, transparent 1.7px),
-            radial-gradient(circle at 84% 79%, var(--star-colour) 0 0.75px, transparent 1.35px),
-            radial-gradient(circle at 47% 46%, var(--star-colour) 0 1.25px, transparent 2px),
-            radial-gradient(circle at 14% 58%, var(--star-colour) 0 0.6px, transparent 1.2px),
-            radial-gradient(circle at 73% 91%, var(--star-colour) 0 0.9px, transparent 1.5px);
-        background-size: 17rem 17rem, 23rem 23rem, 29rem 29rem, 37rem 37rem, 43rem 43rem, 19rem 19rem, 33rem 33rem;
+        background-size: clamp(14.5rem, calc(11.75rem + 7.35vw), 17rem) clamp(14.5rem, calc(11.75rem + 7.35vw), 17rem), clamp(19.5rem, calc(10.4rem + 5.1vw), 23rem) clamp(19.5rem, calc(10.4rem + 5.1vw), 23rem), clamp(24.5rem, calc(19.8rem + 6.55vw), 29rem) clamp(24.5rem, calc(19.8rem + 6.55vw), 29rem), clamp(31.5rem, calc(25.75rem + 8vw), 37rem) clamp(31.5rem, calc(25.75rem + 8vw), 37rem), clamp(36.5rem, calc(29.7rem + 9.45vw), 43rem) clamp(36.5rem, calc(29.7rem + 9.45vw), 43rem), clamp(16rem, calc(12.9rem + 4.36vw), 19rem) clamp(16rem, calc(12.9rem + 4.36vw), 19rem), clamp(28rem, calc(22.78rem + 7.27vw), 33rem) clamp(28rem, calc(22.78rem + 7.27vw), 33rem), clamp(23rem, calc(18.8rem + 5.82vw), 27rem) clamp(23rem, calc(18.8rem + 5.82vw), 27rem), clamp(40rem, calc(32.7rem + 10.18vw), 47rem) clamp(40rem, calc(32.7rem + 10.18vw), 47rem);
     }
 }
 body > section,
