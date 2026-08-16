@@ -159,6 +159,7 @@ body.theme-transitioning header{
     top: auto;
     bottom: 0.2rem;
     left: 0.75rem;
+    background: var(--accent);
 }
 .nav-links li a:hover::before{
     width: calc(100% - 1.5rem);
@@ -525,6 +526,15 @@ section{
 }
 .contact .section-title{
     margin-bottom: 0.6rem;
+}
+.contact-meta{
+    display: grid;
+    gap: 0.65rem;
+    margin-top: 1rem;
+    color: var(--accent);
+}
+.contact-meta p{
+    margin: 0;
 }
 .email-btn{
     display: flex;
