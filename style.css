@@ -1115,6 +1115,16 @@ footer ul li a{
     box-shadow: none;
     transform: none;
 }
+.timeline-item .grid-card span,
+.timeline-item .grid-card h3,
+.timeline-item .grid-card p{
+    transition: color 0.2s ease-in-out;
+}
+.timeline-item .grid-card:hover span,
+.timeline-item .grid-card:hover h3,
+.timeline-item .grid-card:hover p{
+    color: var(--accent);
+}
 .timeline-item .grid-card i{
     display: none;
 }

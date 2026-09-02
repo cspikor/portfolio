@@ -169,7 +169,7 @@ function fadeInSection(section){
     }, 500);
 }
 
-document.querySelectorAll('header a[href^="#"], .section-navigation a[href^="#"]').forEach((link) => {
+document.querySelectorAll('header a[href^="#"], footer a[href^="#"], .section-navigation a[href^="#"]').forEach((link) => {
     link.addEventListener('click', (event) => {
         const targetSelector = link.getAttribute('href');
 
