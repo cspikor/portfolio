@@ -7,6 +7,7 @@
     --accent: #c7a47e;
     --accent-hover: #d7bb9c;
     --header-background: #f7f6f2;
+    --intro-background: #e5e2db;
 }
 
 html.dark-mode,
@@ -19,6 +20,7 @@ body.dark-mode{
     --accent: #c7a47e;
     --accent-hover: #d7bb9c;
     --header-background: #1f1e1b;
+    --intro-background: #36332f;
 }
 
 *{
@@ -56,6 +58,83 @@ body{
 }
 body.modal-open{
     overflow: hidden;
+}
+body > .starfield,
+body > header,
+body > section,
+body > footer{
+    transition: opacity 0.5s ease-out;
+}
+body.intro-active > .starfield,
+body.intro-active > header,
+body.intro-active > section,
+body.intro-active > footer{
+    opacity: 0;
+    pointer-events: none;
+}
+.intro-screen{
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    color: var(--text);
+    transition: visibility 0s linear 2s;
+}
+.intro-curtain{
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+}
+.intro-curtain > span{
+    position: relative;
+    overflow: hidden;
+    background: var(--intro-background);
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 1.05s cubic-bezier(0.65, 0, 0.35, 1), opacity 1.05s ease-out;
+}
+.intro-tile-greeting{
+    position: absolute;
+    top: 50%;
+    left: calc(50vw - (var(--tile) * 12.5vw));
+    width: max-content;
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(3.25rem, 8vw, 8rem);
+    font-weight: 600;
+    line-height: 1;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+}
+.intro-curtain > span:nth-child(1){ transition-delay: 0.08s; }
+.intro-curtain > span:nth-child(2){ transition-delay: 0.14s; }
+.intro-curtain > span:nth-child(3){ transition-delay: 0.2s; }
+.intro-curtain > span:nth-child(4){ transition-delay: 0.26s; }
+.intro-curtain > span:nth-child(5){ transition-delay: 0.32s; }
+.intro-curtain > span:nth-child(6){ transition-delay: 0.38s; }
+.intro-curtain > span:nth-child(7){ transition-delay: 0.44s; }
+.intro-curtain > span:nth-child(8){ transition-delay: 0.5s; }
+}
+.intro-screen.is-leaving{
+    visibility: hidden;
+}
+.intro-screen.is-leaving .intro-curtain > span{
+    transform: translateY(100%);
+    opacity: 0;
+}
+@media(prefers-reduced-motion: reduce){
+    body > .starfield,
+    body > header,
+    body > section,
+    body > footer,
+    .intro-screen,
+    .intro-curtain > span{
+        transition-duration: 0.01ms;
+    }
 }
 .starfield{
     position: fixed;

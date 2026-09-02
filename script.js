@@ -28,8 +28,12 @@ const skillFilters = document.querySelectorAll('[data-skill-filter]');
 const skillCards = document.querySelectorAll('[data-skill-category]');
 const pdfViewer = document.querySelector('#pdf-viewer');
 const resumeDownloadBtn = document.querySelector('#resume-download-btn');
+const introScreen = document.querySelector('#intro-screen');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let sectionJumpTimeout;
+if(introScreen){
+    document.body.classList.add('intro-active');
+}
 const lenis = !prefersReducedMotion && window.Lenis
     ? new window.Lenis({
         lerp: 0.08,
@@ -47,6 +51,20 @@ if(lenis){
 
     requestAnimationFrame(updateLenis);
 }
+
+function dismissIntro(){
+    if(!introScreen){
+        return;
+    }
+
+    introScreen.classList.add('is-leaving');
+    window.setTimeout(() => {
+        introScreen.remove();
+        document.body.classList.remove('intro-active');
+    }, prefersReducedMotion ? 20 : 1700);
+}
+
+window.setTimeout(dismissIntro, prefersReducedMotion ? 0 : 800);
 
 skillFilters.forEach((filter) => {
     filter.addEventListener('click', () => {
