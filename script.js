@@ -1,7 +1,3 @@
-import * as pdfjsLib from './vendor/pdfjs/pdf.min.mjs';
-
-pdfjsLib.GlobalWorkerOptions.workerSrc ='./vendor/pdfjs/pdf.worker.min.mjs';
-
 const menuIcon = document.querySelector('#menu-icon');
 const navLinks = document.querySelector('.nav-links');
 const siteFavicon = document.querySelector('#site-favicon');
@@ -36,20 +32,47 @@ if(introScreen){
 }
 const lenis = !prefersReducedMotion && window.Lenis
     ? new window.Lenis({
-        lerp: 0.08,
+        lerp: 0.12,
         smoothWheel: true,
         wheelMultiplier: 0.9,
         touchMultiplier: 1
     })
     : null;
+let lenisFrame;
+
+function scheduleLenisFrame(resetClock = false){
+    if(!lenis || lenisFrame){
+        return;
+    }
+
+    if(resetClock){
+        lenis.time = performance.now();
+    }
+
+    lenisFrame = requestAnimationFrame((time) => {
+        lenisFrame = undefined;
+        lenis.raf(time);
+
+        if(lenis.isScrolling === 'smooth'){
+            scheduleLenisFrame();
+        }
+    });
+}
 
 if(lenis){
-    const updateLenis = (time) => {
-        lenis.raf(time);
-        requestAnimationFrame(updateLenis);
-    };
+    lenis.on('virtual-scroll', () => {
+        scheduleLenisFrame(lenis.isScrolling !== 'smooth');
+    });
 
-    requestAnimationFrame(updateLenis);
+    document.addEventListener('visibilitychange', () => {
+        if(document.hidden){
+            cancelAnimationFrame(lenisFrame);
+            lenisFrame = undefined;
+        }
+        else if(lenis.isScrolling === 'smooth'){
+            scheduleLenisFrame(true);
+        }
+    });
 }
 
 function dismissIntro(){
@@ -82,27 +105,6 @@ skillFilters.forEach((filter) => {
     });
 });
 
-const popoutImageSources = new Set();
-detailCards.forEach((card) => {
-    if(card.dataset.hero){
-        popoutImageSources.add(card.dataset.hero);
-    }
-    if(card.classList.contains('project-card')){
-        popoutImageSources.add(card.querySelector('img').src);
-    }
-    card.dataset.photos?.split('|').forEach((photo) => popoutImageSources.add(photo));
-});
-popoutImageSources.forEach((source) => {
-    const preload = new Image();
-    preload.src = source;
-});
-
-['./assets/documents/Resume.pdf'].forEach((path) => {
-    fetch(path, {cache: 'force-cache'}).catch(() => {
-        // The resume viewer will show its existing fallback if a PDF cannot load.
-    });
-});
-
 function getResumePath(){
     return './assets/documents/Resume.pdf';
 }
@@ -111,15 +113,11 @@ function setTheme(isDark){
     document.documentElement.classList.toggle('dark-mode', isDark);
     document.body.classList.toggle('dark-mode', isDark);
     siteFavicon.href = isDark
-        ? 'assets/images/logo/favicon-dark.png?v=20260814'
-        : 'assets/images/logo/favicon-light.png?v=20260814';
+        ? 'assets/images/logo/favicon-dark-64.png?v=20260922'
+        : 'assets/images/logo/favicon-light-64.png?v=20260922';
     themeIcon.classList.toggle('fa-moon', isDark);
     themeIcon.classList.toggle('fa-sun', !isDark);
     resumeDownloadBtn.href = './assets/documents/Resume.pdf';
-
-    if(modal.classList.contains('active') && resumeModal.classList.contains('active')){
-        loadResume();
-    }
 }
 
 let themeTransitionInProgress = false;
@@ -226,7 +224,57 @@ document.querySelectorAll('header a[href^="#"], footer a[href^="#"], .section-na
     });
 });
 
+let cancelPendingModalOpenWork = () => {};
+
+function runAfterModalOpen(callback){
+    cancelPendingModalOpenWork();
+
+    let isCancelled = false;
+    let fallbackTimer;
+    let reducedMotionFrame;
+
+    const cleanup = () => {
+        modalContent.removeEventListener('animationend', handleAnimationEnd);
+        window.clearTimeout(fallbackTimer);
+        cancelAnimationFrame(reducedMotionFrame);
+    };
+
+    const run = () => {
+        if(isCancelled){
+            return;
+        }
+
+        isCancelled = true;
+        cleanup();
+        cancelPendingModalOpenWork = () => {};
+
+        if(modal.classList.contains('active') && !modal.classList.contains('closing')){
+            callback();
+        }
+    };
+
+    const handleAnimationEnd = (event) => {
+        if(event.target === modalContent && event.animationName === 'modal-content-in'){
+            run();
+        }
+    };
+
+    cancelPendingModalOpenWork = () => {
+        isCancelled = true;
+        cleanup();
+    };
+
+    if(prefersReducedMotion){
+        reducedMotionFrame = requestAnimationFrame(run);
+        return;
+    }
+
+    modalContent.addEventListener('animationend', handleAnimationEnd);
+    fallbackTimer = window.setTimeout(run, 650);
+}
+
 function openModal(page, isProject = false){
+    cancelPendingModalOpenWork();
     modal.classList.remove('closing');
     resumeModal.classList.remove('active');
     contactModal.classList.remove('active');
@@ -261,29 +309,69 @@ function closeModal(){
     }
 
     modal.classList.add('closing');
+    cancelPendingModalOpenWork();
     document.body.classList.remove('modal-open');
     lenis?.start();
+
+    if(resumeModal.classList.contains('active')){
+        cancelResumeRender();
+    }
 
     window.setTimeout(() => {
         modal.classList.remove('active', 'closing');
     }, 220);
 }
 
+let resumePdfPromise;
+let resumeRenderGeneration = 0;
+let activeResumeRenderTask;
+
+async function getResumePdf(){
+    if(!resumePdfPromise){
+        resumePdfPromise = import('./vendor/pdfjs/pdf.min.mjs')
+            .then((pdfjsLib) => {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = './vendor/pdfjs/pdf.worker.min.mjs';
+                return pdfjsLib.getDocument(getResumePath()).promise;
+            })
+            .catch((error) => {
+                resumePdfPromise = undefined;
+                throw error;
+            });
+    }
+
+    return resumePdfPromise;
+}
+
+function cancelResumeRender(){
+    resumeRenderGeneration++;
+    activeResumeRenderTask?.cancel();
+    activeResumeRenderTask = undefined;
+}
+
 async function loadResume(){
+    const renderGeneration = ++resumeRenderGeneration;
+    activeResumeRenderTask?.cancel();
+    activeResumeRenderTask = undefined;
     pdfViewer.innerHTML = '<p>Loading resume...</p>';
 
     try{
-        const resumePath = getResumePath();
-        const pdf = await pdfjsLib.getDocument(resumePath).promise;
+        const pdf = await getResumePdf();
+        if(renderGeneration !== resumeRenderGeneration){
+            return;
+        }
 
         pdfViewer.innerHTML = '';
 
         for(let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++){
             const page = await pdf.getPage(pageNumber);
+            if(renderGeneration !== resumeRenderGeneration){
+                return;
+            }
+
             const baseViewport = page.getViewport({scale: 1});
             const availableWidth = pdfViewer.clientWidth;
             const displayScale = Math.max(0.1, availableWidth / baseViewport.width);
-            const renderScale = displayScale * Math.min(window.devicePixelRatio || 1, 3);
+            const renderScale = displayScale * Math.min(window.devicePixelRatio || 1, 2);
             const viewport = page.getViewport({scale: renderScale});
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
@@ -295,13 +383,19 @@ async function loadResume(){
 
             pdfViewer.appendChild(canvas);
 
-            await page.render({
+            activeResumeRenderTask = page.render({
                 canvasContext: context,
                 viewport: viewport
-            }).promise;
+            });
+            await activeResumeRenderTask.promise;
+            activeResumeRenderTask = undefined;
         }
     }
     catch(error){
+        if(renderGeneration !== resumeRenderGeneration){
+            return;
+        }
+
         pdfViewer.innerHTML = `
             <p>Could not load the resume.</p>
             <a href="${getResumePath()}" class="btn" target="_blank">Open Resume PDF</a>
@@ -310,15 +404,77 @@ async function loadResume(){
 }
 
 resumeBtn.onclick = () => {
+    pdfViewer.innerHTML = '<p>Loading resume...</p>';
     openModal(resumeModal);
-    loadResume();
+    runAfterModalOpen(() => {
+        void loadResume();
+    });
 }
 
 contactBtn.onclick = () => {
     openModal(contactModal);
 }
 
+const cardImageCache = new Map();
+
+function cacheCardImage(source){
+    if(!source){
+        return null;
+    }
+
+    const url = new URL(source, document.baseURI).href;
+    if(!cardImageCache.has(url)){
+        const image = new Image();
+        image.decoding = 'async';
+        image.fetchPriority = 'low';
+        image.src = url;
+        image.decode?.().catch(() => {
+            // The image can still render normally if eager decoding is unavailable.
+        });
+        cardImageCache.set(url, image);
+    }
+
+    return cardImageCache.get(url);
+}
+
+function preloadCardImages(card){
+    if(card.dataset.hero){
+        cacheCardImage(card.dataset.hero);
+    }
+    if(card.classList.contains('project-card')){
+        cacheCardImage(card.querySelector('img')?.getAttribute('src'));
+    }
+
+    card.dataset.photos?.split('|').forEach((source) => {
+        if(!/\.(mp4|webm)$/i.test(source)){
+            cacheCardImage(source);
+        }
+    });
+}
+
+function createCachedModalImage(source, alt){
+    const image = cacheCardImage(source) || new Image();
+    image.alt = alt;
+    image.decoding = 'async';
+    image.fetchPriority = 'high';
+    image.loading = 'eager';
+    return image;
+}
+
+const preloadAllCardImages = () => {
+    detailCards.forEach(preloadCardImages);
+};
+
+if(document.readyState === 'complete'){
+    window.setTimeout(preloadAllCardImages, 0);
+}
+else{
+    window.addEventListener('load', preloadAllCardImages, {once: true});
+}
+
 detailCards.forEach((card) => {
+    card.addEventListener('pointerenter', () => preloadCardImages(card), {once: true});
+
     card.onclick = () => {
         const [role, employer] = card.dataset.title.split(' | ');
         projectTitle.textContent = role;
@@ -349,44 +505,64 @@ detailCards.forEach((card) => {
             })
         );
 
-        projectHero.replaceChildren();
         const heroPath = card.dataset.hero || (card.classList.contains('project-card') ? card.querySelector('img').src : undefined);
+        const photos = card.dataset.photos?.split('|') || [];
+        const captions = card.dataset.captions?.split('|') || [];
+        projectHero.replaceChildren();
+        projectHero.classList.remove('active');
+        projectGallery.replaceChildren();
+        projectGallery.classList.remove('active');
+
         if(heroPath){
-            const heroImage = document.createElement('img');
-            heroImage.src = heroPath;
-            heroImage.alt = `${card.dataset.title} image`;
-            projectHero.appendChild(heroImage);
+            projectHero.appendChild(createCachedModalImage(heroPath, `${card.dataset.title} image`));
             projectHero.classList.add('active');
         }
-        else{
-            projectHero.classList.remove('active');
-        }
 
-        projectGallery.replaceChildren();
-        if(card.dataset.photos){
-            const captions = card.dataset.captions?.split('|') || [];
-            card.dataset.photos.split('|').forEach((photo, index) => {
-                const figure = document.createElement('figure');
-                const image = document.createElement('img');
-                image.src = photo;
-                image.alt = `${card.dataset.title} supporting photo ${index + 1}`;
-                figure.appendChild(image);
+        const deferredVideos = [];
+        photos.forEach((photo, index) => {
+            const figure = document.createElement('figure');
+            const isVideo = /\.(mp4|webm)$/i.test(photo);
 
-                if(captions[index]){
-                    const caption = document.createElement('figcaption');
-                    caption.textContent = captions[index];
-                    figure.appendChild(caption);
-                }
+            if(isVideo){
+                const video = document.createElement('video');
+                video.setAttribute('aria-label', `${card.dataset.title} supporting video ${index + 1}`);
+                video.autoplay = true;
+                video.defaultMuted = true;
+                video.muted = true;
+                video.loop = true;
+                video.playsInline = true;
+                video.preload = 'metadata';
+                video.width = 800;
+                video.height = 450;
+                figure.appendChild(video);
+                deferredVideos.push(() => {
+                    video.src = photo;
+                    video.load();
+                });
+            }
+            else{
+                figure.appendChild(
+                    createCachedModalImage(photo, `${card.dataset.title} supporting photo ${index + 1}`)
+                );
+            }
 
-                projectGallery.appendChild(figure);
-            });
-            projectGallery.classList.add('active');
-        }
-        else{
-            projectGallery.classList.remove('active');
-        }
+            if(captions[index]){
+                const caption = document.createElement('figcaption');
+                caption.textContent = captions[index];
+                figure.appendChild(caption);
+            }
+
+            projectGallery.appendChild(figure);
+        });
+        projectGallery.classList.toggle('active', photos.length > 0);
 
         openModal(projectModal, card.classList.contains('project-card') || Boolean(card.dataset.hero));
+
+        if(deferredVideos.length){
+            runAfterModalOpen(() => {
+                deferredVideos.forEach((loadVideo) => loadVideo());
+            });
+        }
     }
 });
 
@@ -413,38 +589,123 @@ window.addEventListener('resize', () => {
     }
 
     clearTimeout(resumeResizeTimer);
-    resumeResizeTimer = setTimeout(loadResume, 150);
+    resumeResizeTimer = setTimeout(() => {
+        void loadResume();
+    }, 150);
 });
 
 const pageSections = [...document.querySelectorAll('body > section')];
 const sectionUpBtn = document.querySelector('#section-up-btn');
 const sectionDownBtn = document.querySelector('#section-down-btn');
 const timelines = document.querySelectorAll('.timeline');
+const timelineEntries = [...timelines].map((timeline) => ({
+    timeline,
+    items: [...timeline.querySelectorAll('.timeline-item')],
+    end: 0,
+    isVisible: false,
+    lastProgress: -1
+}));
+const supportsIntersectionObserver = 'IntersectionObserver' in window;
 const projectsSection = document.querySelector('#projects');
 const projectsRail = document.querySelector('.projects-rail');
-let projectScrollTarget = 0;
 let projectScrollPosition = 0;
-let projectScrollFrame;
+let projectScrollDistance = 1;
+let projectRailDistance = 0;
+let pageScrollFrame;
+
+if(supportsIntersectionObserver){
+    const timelineObserver = new IntersectionObserver((observations) => {
+        observations.forEach((observation) => {
+            const entry = timelineEntries.find(({timeline}) => timeline === observation.target);
+            if(!entry){
+                return;
+            }
+
+            entry.isVisible = observation.isIntersecting;
+            entry.timeline.classList.toggle('is-visible', entry.isVisible);
+
+            if(entry.isVisible){
+                schedulePageScrollUpdate();
+            }
+        });
+    }, {rootMargin: '0px 0px -10% 0px'});
+
+    const timelineItemObserver = new IntersectionObserver((observations) => {
+        observations.forEach((observation) => {
+            const activationLine = observation.rootBounds?.bottom ?? window.innerHeight * 0.9;
+            observation.target.classList.toggle(
+                'is-active',
+                observation.boundingClientRect.top < activationLine
+            );
+        });
+    }, {rootMargin: '0px 0px -10% 0px'});
+
+    timelineEntries.forEach((entry) => {
+        timelineObserver.observe(entry.timeline);
+        entry.items.forEach((item) => timelineItemObserver.observe(item));
+    });
+}
+else{
+    timelineEntries.forEach((entry) => {
+        entry.isVisible = true;
+    });
+}
+
+function measureProjectsScroll(){
+    if(!projectsSection || !projectsRail || window.innerWidth <= 900){
+        projectScrollDistance = 1;
+        projectRailDistance = 0;
+        return;
+    }
+
+    projectScrollDistance = Math.max(projectsSection.offsetHeight - window.innerHeight, 1);
+    projectRailDistance = Math.max(projectsRail.scrollWidth - projectsRail.clientWidth, 0);
+}
+
+function setProjectsScroll(position){
+    if(Math.abs(position - projectScrollPosition) < 0.1){
+        return;
+    }
+
+    projectScrollPosition = position;
+    projectsRail.style.transform = `translate3d(${-position}px, 0, 0)`;
+}
+
+function measureTimelineEntries(){
+    timelineEntries.forEach((entry) => {
+        const lastTimelineItem = entry.items[entry.items.length - 1];
+        entry.end = lastTimelineItem
+            ? lastTimelineItem.offsetTop + lastTimelineItem.offsetHeight / 2
+            : Math.max(entry.timeline.getBoundingClientRect().height, 1);
+        entry.lastProgress = -1;
+    });
+}
 
 function updateTimelines(){
-    timelines.forEach((timeline) => {
-        const timelineBounds = timeline.getBoundingClientRect();
-        const trackHeight = Math.max(timelineBounds.height, 1);
-        const progressTrigger = window.innerHeight * 0.55;
-        const viewportTrigger = window.innerHeight * 0.9;
-        const timelineItems = timeline.querySelectorAll('.timeline-item');
-        const lastTimelineItem = timelineItems[timelineItems.length - 1];
-        const timelineEnd = lastTimelineItem
-            ? lastTimelineItem.offsetTop + lastTimelineItem.offsetHeight / 2
-            : trackHeight;
-        const progress = Math.min(Math.max(progressTrigger - timelineBounds.top, 0), timelineEnd);
+    const progressTrigger = window.innerHeight * 0.55;
+    const viewportTrigger = window.innerHeight * 0.9;
+    timelineEntries.forEach((entry) => {
+        const bounds = entry.timeline.getBoundingClientRect();
+        const isVisible = supportsIntersectionObserver
+            ? entry.isVisible
+            : bounds.top < viewportTrigger && bounds.bottom > 0;
 
-        timeline.style.setProperty('--timeline-progress', `${progress}px`);
-        timeline.classList.toggle('is-visible', timelineBounds.top < window.innerHeight * 0.9 && timelineBounds.bottom > 0);
+        if(!supportsIntersectionObserver){
+            entry.timeline.classList.toggle('is-visible', isVisible);
+            entry.items.forEach((item) => {
+                item.classList.toggle('is-active', item.getBoundingClientRect().top < viewportTrigger);
+            });
+        }
 
-        timeline.querySelectorAll('.timeline-item').forEach((item) => {
-            item.classList.toggle('is-active', item.getBoundingClientRect().top < viewportTrigger);
-        });
+        if(!isVisible){
+            return;
+        }
+
+        const progress = Math.min(Math.max(progressTrigger - bounds.top, 0), entry.end);
+        if(Math.abs(progress - entry.lastProgress) >= 0.1){
+            entry.timeline.style.setProperty('--timeline-progress', `${progress}px`);
+            entry.lastProgress = progress;
+        }
     });
 }
 
@@ -454,44 +715,25 @@ function updateProjectsScroll(){
     }
 
     if(window.innerWidth <= 900){
-        if(projectScrollFrame){
-            cancelAnimationFrame(projectScrollFrame);
-            projectScrollFrame = undefined;
-        }
         projectsRail.style.transform = '';
-        projectScrollTarget = 0;
         projectScrollPosition = 0;
         return;
     }
 
     const bounds = projectsSection.getBoundingClientRect();
-    const scrollDistance = projectsSection.offsetHeight - window.innerHeight;
-    const progress = Math.min(Math.max(-bounds.top / scrollDistance, 0), 1);
-    const railBuffer = 0.12;
-    const railProgress = Math.min(Math.max((progress - railBuffer) / (1 - railBuffer * 2), 0), 1);
-    const railDistance = projectsRail.scrollWidth - projectsRail.clientWidth;
-
-    projectScrollTarget = railProgress * railDistance;
-
-    if(projectScrollFrame){
+    if(bounds.top >= window.innerHeight){
+        setProjectsScroll(0);
+        return;
+    }
+    if(bounds.bottom <= 0){
+        setProjectsScroll(projectRailDistance);
         return;
     }
 
-    const animateProjects = () => {
-        projectScrollPosition += (projectScrollTarget - projectScrollPosition) * 0.14;
-        projectsRail.style.transform = `translate3d(${-projectScrollPosition}px, 0, 0)`;
-
-        if(Math.abs(projectScrollTarget - projectScrollPosition) > 0.5){
-            projectScrollFrame = requestAnimationFrame(animateProjects);
-        }
-        else{
-            projectScrollPosition = projectScrollTarget;
-            projectsRail.style.transform = `translate3d(${-projectScrollPosition}px, 0, 0)`;
-            projectScrollFrame = undefined;
-        }
-    };
-
-    projectScrollFrame = requestAnimationFrame(animateProjects);
+    const progress = Math.min(Math.max(-bounds.top / projectScrollDistance, 0), 1);
+    const railBuffer = 0.12;
+    const railProgress = Math.min(Math.max((progress - railBuffer) / (1 - railBuffer * 2), 0), 1);
+    setProjectsScroll(railProgress * projectRailDistance);
 }
 
 function updateSectionNavigation(){
@@ -518,14 +760,31 @@ function updateSectionNavigation(){
     }
 }
 
-window.addEventListener('scroll', () => {
+function updatePageScroll(){
     updateSectionNavigation();
     updateTimelines();
     updateProjectsScroll();
-}, {passive: true});
+}
 
-window.addEventListener('resize', updateProjectsScroll);
+function schedulePageScrollUpdate(){
+    if(pageScrollFrame){
+        return;
+    }
 
-updateSectionNavigation();
-updateTimelines();
-updateProjectsScroll();
+    pageScrollFrame = requestAnimationFrame(() => {
+        pageScrollFrame = undefined;
+        updatePageScroll();
+    });
+}
+
+window.addEventListener('scroll', schedulePageScrollUpdate, {passive: true});
+
+window.addEventListener('resize', () => {
+    measureTimelineEntries();
+    measureProjectsScroll();
+    schedulePageScrollUpdate();
+});
+
+measureTimelineEntries();
+measureProjectsScroll();
+updatePageScroll();
